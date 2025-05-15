@@ -4,6 +4,6 @@ Starter/template code for my personal portfolio website
 
 # Steps for Running
 
-Install dependencies: npm install
+Install dependencies: `npm install`
 
-Start the development server: npm start
+Start the development server: `npm start`
