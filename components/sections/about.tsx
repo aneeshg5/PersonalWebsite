@@ -5,6 +5,9 @@ import { AnimatedLetters } from "@/components/animated-letters"
 import { ScrollFadeWrapper } from "@/components/scroll-fade-wrapper"
 import { ImageCarousel } from "@/components/image-carousel"
 import { Plane, ToyBrick, FlaskConical, Rocket } from "lucide-react"
+import { PasscodeModal } from "@/components/passcode-modal"
+import { useAuth } from "@/hooks/use-auth"
+import { useState } from "react"
 
 export function About() {
   const highlights = [
@@ -44,14 +47,34 @@ export function About() {
     
   ]
 
+
+  const { isAuthenticated, authenticate } = useAuth()
+  const [showPasscodeModal, setShowPasscodeModal] = useState(false);
+
   const handleResumeDownload = () => {
-    if (typeof window === "undefined") return;
+    if (!isAuthenticated) {
+      setShowPasscodeModal(true)
+      return
+    }
+    
     const link = document.createElement("a")
     link.href = "/resume.pdf"
     link.download = "Aneesh_Ganti_Resume.pdf"
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
+  }
+
+  const handlePasscodeSuccess = () => {
+    authenticate()
+    setTimeout(() => {
+      const link = document.createElement("a");
+      link.href = "/resume.pdf"
+      link.download = "Aneesh_Ganti_Resume.pdf"
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }, 100)
   }
 
   return (
@@ -106,6 +129,13 @@ export function About() {
           </div>
         </div>
       </div>
+      <PasscodeModal
+        isOpen={showPasscodeModal}
+        onClose={() => setShowPasscodeModal(false)}
+        onSuccess={handlePasscodeSuccess}
+        title="Resume Access"
+        description="Please enter the passcode to download the resume."
+      />
     </ScrollFadeWrapper>
   )
 }

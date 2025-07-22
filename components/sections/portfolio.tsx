@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { AnimatedLetters } from "@/components/animated-letters"
 import { ProjectModal } from "@/components/project-modal"
 import { Calendar, User, ChevronLeft, ChevronRight } from "lucide-react"
+import { PasscodeModal } from "@/components/passcode-modal"
+import { useAuth } from "@/hooks/use-auth"
 
 interface ProjectImage {
   src: string
@@ -206,6 +208,9 @@ const projects: Project[] = [
 
 export function Portfolio() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const { isAuthenticated, authenticate } = useAuth()
+  const [showPasscodeModal, setShowPasscodeModal] = useState(false)
+  const [pendingProject, setPendingProject] = useState<Project | null>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
@@ -217,6 +222,22 @@ export function Portfolio() {
   const scrollRight = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" })
+    }
+  }
+
+  const handleProjectClick = (project: Project) => {
+    if (!isAuthenticated) {
+      setPendingProject(project)
+      setShowPasscodeModal(true)
+      return
+    }
+    setSelectedProject(project)
+  }
+  const handlePasscodeSuccess = () => {
+    authenticate()
+    if (pendingProject) {
+      setSelectedProject(pendingProject)
+      setPendingProject(null)
     }
   }
 
@@ -261,7 +282,7 @@ export function Portfolio() {
               key={project.id}
               className="bg-slate-800/50 border-slate-700 hover:border-yellow-400/50 transition-all duration-300 transform hover:scale-105 cursor-pointer flex-shrink-0 touch-manipulation"
               style={{ width: "280px", minWidth: "280px" }}
-              onClick={() => setSelectedProject(project)}
+              onClick={() => handleProjectClick(project)}
             >
               <CardContent className="p-4 sm:p-6">
                 {}
@@ -321,7 +342,16 @@ export function Portfolio() {
       </div>
 
       <ProjectModal project={selectedProject} isOpen={!!selectedProject} onClose={() => setSelectedProject(null)} />
-
+      <PasscodeModal
+        isOpen={showPasscodeModal}
+        onClose={() => {
+          setShowPasscodeModal(false)
+          setPendingProject(null)
+        }}
+        onSuccess={handlePasscodeSuccess}
+        title="Portfolio Access"
+        description="Please enter the passcode to view project details."
+      />
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;

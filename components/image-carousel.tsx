@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ChevronLeft, ChevronRight, Download } from "lucide-react"
+import { ChevronLeft, ChevronRight, Download, Sparkles } from "lucide-react"
 
 interface CarouselItem {
   type: "profile" | "image"
@@ -74,54 +74,121 @@ export function ImageCarousel({ items, onResumeDownload }: ImageCarouselProps) {
   }
 
   const renderCarouselItem = (item: CarouselItem, index: number) => {
-    if (item.type === "profile") {
-      return (
-        <Card className="w-full h-full bg-slate-800 border-slate-700">
-          <CardContent className="p-4 sm:p-6 h-full flex flex-col justify-center items-center text-center">
-            {}
-            <div className="w-20 h-20 sm:w-28 md:w-32 sm:h-28 md:h-32 rounded-full mb-4 sm:mb-6 overflow-hidden border-4 border-yellow-400/20">
-              <img
-                src={item.profileImage || "/images/profile-photo.png"}
-                alt={item.title || "Profile photo"}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none"
-                  e.currentTarget.nextElementSibling!.style.display = "flex"
-                }}
-              />
-              <div className="hidden w-full h-full bg-gradient-to-r from-yellow-400 to-yellow-600 items-center justify-center">
-                <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">AG</span>
+    // ... previous imports and code ...
+
+  if (item.type === "profile") {
+    return (
+      <Card className="w-full h-full overflow-hidden relative">
+        <CardContent className="p-0 h-full relative">
+          {/* Background with Multiple Layers */}
+          <div className="absolute inset-0">
+            {/* Base gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-purple-500/10 to-blue-600/20" />
+
+            {/* Animated gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400/10 via-transparent to-purple-500/10 animate-pulse" />
+
+            {/* Subtle pattern overlay */}
+            <div className="absolute inset-0 opacity-30">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform rotate-12" />
+              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-white/3 to-transparent transform -rotate-12" />
+            </div>
+
+            {/* Floating particles/sparkles effect */}
+            <div className="absolute inset-0">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-1 h-1 bg-yellow-400/40 rounded-full animate-pulse"
+                  style={{
+                    left: `${20 + i * 10}%`,
+                    top: `${15 + i * 8}%`,
+                    animationDelay: `${i * 0.5}s`,
+                    animationDuration: `${2 + i * 0.3}s`,
+                  }}
+                />
+              ))}
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Sparkles
+                  key={`sparkle-${i}`}
+                  className="absolute w-3 h-3 text-yellow-400/30 animate-pulse"
+                  style={{
+                    right: `${10 + i * 12}%`,
+                    bottom: `${20 + i * 10}%`,
+                    animationDelay: `${i * 0.7}s`,
+                    animationDuration: `${3 + i * 0.4}s`,
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Border glow effect */}
+            <div className="absolute inset-0 rounded-lg border border-yellow-400/20 shadow-inner" />
+            <div className="absolute inset-0 rounded-lg border border-purple-500/10" />
+          </div>
+
+          {/* Content Layer */}
+          <div className="relative z-10 p-4 sm:p-6 h-full flex flex-col justify-center items-center text-center">
+            {/* Simplified Profile Image */}
+            <div className="relative mb-4 sm:mb-6">
+              <div className="relative w-20 h-20 sm:w-28 md:w-32 sm:h-28 md:h-32 overflow-hidden">
+                <img
+                  src={item.profileImage || "/images/profile-photo.png"}
+                  alt={item.title || "Profile photo"}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none"
+                    e.currentTarget.nextElementSibling!.style.display = "flex"
+                  }}
+                />
+                <div className="hidden w-full h-full bg-gradient-to-r from-yellow-400 to-yellow-600 items-center justify-center">
+                  <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">AG</span>
+                </div>
               </div>
             </div>
-            <h3 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">{item.title}</h3>
-            <div className="space-y-2 mb-4 sm:mb-6">
+
+            {/* Enhanced Title with Glow */}
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4 relative">
+              <span className="relative z-10">{item.title}</span>
+              <div className="absolute inset-0 text-yellow-400/30 blur-sm">{item.title}</div>
+            </h3>
+
+            {/* Badges in one line */}
+            <div className="flex gap-2 mb-4 sm:mb-6 flex-nowrap justify-center">
               {item.badges?.map((badge, badgeIndex) => (
                 <Badge
                   key={badgeIndex}
                   variant="secondary"
-                  className={`text-xs sm:text-sm ${
+                  className={`text-xs sm:text-sm font-medium px-3 py-1 whitespace-nowrap transition-all duration-300 hover:scale-105 ${
                     badgeIndex === 0
-                      ? "bg-yellow-400/20 text-yellow-400"
+                      ? "bg-gradient-to-r from-yellow-400/30 to-yellow-500/30 text-yellow-300 border border-yellow-400/40"
                       : badgeIndex === 1
-                        ? "bg-blue-400/20 text-blue-400"
-                        : "bg-green-400/20 text-green-400"
+                        ? "bg-gradient-to-r from-blue-400/30 to-blue-500/30 text-blue-300 border border-blue-400/40"
+                        : "bg-gradient-to-r from-green-400/30 to-green-500/30 text-green-300 border border-green-400/40"
                   }`}
                 >
                   {badge}
                 </Badge>
               ))}
             </div>
+
+            {/* Enhanced Download Button */}
             <Button
               onClick={onResumeDownload}
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-semibold modern-button text-sm sm:text-base h-10 sm:h-12 touch-manipulation"
+              className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-slate-900 font-semibold text-sm sm:text-base h-10 sm:h-12 touch-manipulation transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/30"
             >
-              <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-              Download Resume
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-300/50 to-yellow-400/50 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative z-10 flex items-center justify-center">
+                <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                Download Resume
+              </div>
+              <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
             </Button>
-          </CardContent>
-        </Card>
-      )
-    } else {
+          </div>
+        </CardContent>
+      </Card>
+    )
+  } else {
       return (
         <Card className="w-full h-full bg-slate-800 border-slate-700 overflow-hidden">
           <CardContent className="p-0 h-full">
