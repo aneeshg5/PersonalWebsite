@@ -29,6 +29,28 @@ A modern, interactive developer portfolio showcasing my projects and skills. Bui
 - **API Integration** - EmailJS service integration for contact functionality
 - **Performance Optimization** - Next.js optimization features and lazy loading
 
+## 🚀 Quick Setup
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Set up environment variables:**
+   Create a `.env.local` file in the root directory:
+   ```
+   NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
+   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+   ```
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+> **Note:** The contact form requires EmailJS configuration. Without these environment variables, the contact form will not function.
+
 ## 📧 Contact
 
 Connect with me on [LinkedIn](https://www.linkedin.com/in/aneesh-ganti-ba606326b/) or [GitHub](https://github.com/aneeshg5).
