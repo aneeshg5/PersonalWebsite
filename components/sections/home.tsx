@@ -96,7 +96,7 @@ export function Home() {
           className={`space-y-4 sm:space-y-6 transition-all duration-1000 ${showFinalContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
         >
           <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto px-4 leading-relaxed">
-            Computer Science and Mathematics student at UIUC who enjoys innovating on current technologies to build smart solutions.
+            Computer Science and Mathematics student at UIUC who enjoys taking rigorous ideas and building them into practical, robust systems.
           </p>
 
           <Button

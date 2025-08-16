@@ -34,38 +34,38 @@ const projects: Project[] = [
   {
     id: "1",
     title: "Promo Pigeon Automation Platform",
-    role: "Backend Software Engineer",
+    role: "Full-Stack Software Engineer",
     date: "April 2025 - Present",
     description:
       "A smart sales automation platform for manufacturers seeking new clients for promotional products.",
     longDescription:
-      "Promo Pigeon is a full-stack automation service designed to help manufacturers efficiently discover, target, and engage new business clients for promotional products. The platform automates the entire sales pipeline from identifying potential businesses to managing personalized outreach, order processing, and shipment tracking.",
-    technologies: ["Python", "AWS", "PostgreSQL", "Flask", "Selenium", "BeautifulSoup", "OpenAI API", "React", "Vite", "TypeScript", "Docker", "Playwright"],
+      "Promo Pigeon is a full-stack sales service designed to automate business targeting, personalized marketing, order fulfillment, and shipment tracking for manufacturing companies seeking new clients for promotional products. This includes pens, sanitizers, lip balms, and more. With a team of 3 other interns, I am responsible for:",
+    technologies: ["Amazon Web Services", "React.js", "PostgreSQL", "Python", "TypeScript", "Flask", "SQLAlchemy", "Docker", "Playwright", "BeautifulSoup", "RESTful API", "TanStack Router", "OpenAI GPT-4.1", "Real-ERSGAN"],
     images: ["/placeholder.svg?height=400&width=600"],
     projectImage: "/images/portfolio/Promo/promo-cover.png",
     modalImages: [
       {
         src: "/images/portfolio/Promo/image2.png",
         caption:
-          "Promo Pigeon dashboard: business targeting and product management.",
+          "Promo Pigeon Order Placement Dashboard.",
       },
       {
         src: "/images/portfolio/Promo/scrape.png",
         caption:
-          "Automated Google Maps scraping for business discovery.",
+          "Automated Google Maps Scraping for Business Data Collection.",
       },
       {
         src: "/images/portfolio/Promo/flyer.png",
         caption:
-          "Flyer generation with AI-powered recommendations and logo processing.",
+          "Flyer Generation with AI-powered Themes and Quality Assurance.",
       },
     ],
     paragraphs: [
-      "Developed robust RESTful APIs using Flask and Flask-OpenAPI3, enabling seamless integration with a modern React frontend and third-party services.",
-      "Engineered a scalable data pipeline using Selenium and Playwright to scrape business information from Google Maps using recursive search, followed by BeautifulSoup-based parsing and enrichment.",
-      "Implemented asynchronous and parallel scraping strategies to maximize throughput and minimize latency during large-scale business data collection.",
-      "Architected and managed a PostgreSQL database with SQLAlchemy ORM to store business, product, and order data, ensuring data integrity and efficient querying.",
-      "Integrated OpenAI's API to provide AI-driven product recommendations and intelligent logo extraction from business websites, enhancing personalization and marketing effectiveness.",
+      "Developed Flask-based backend system with robust RESTful APIs for seamless connectivity with modern React frontend, PostgreSQL database, business web scraper, and other third-party services and APIs.",
+      "Automated scraping 1000+ business leads per region from Google Maps using Playwright asynchronous browser tools and BeautifulSoup HTML parsing and storing data inside our PostgreSQL database.",
+      "Built a responsive React and TypeScript interface with TanStack routing to streamline navigation for CSV uploads and instant PDF label generation for efficient client onboarding and order management.",
+      "Integrated OpenAI GPT-4.1 models to provide product recommendations, generate industry-based flyer themes, and monitor printing quality for error-free, personalized, and effective marketing assets.",
+      "Deployed on AWS using EC2 backend hosting, RDS database management, and S3 secure asset storage."
     ],
   },
   {
@@ -136,7 +136,7 @@ const projects: Project[] = [
     ],
     paragraphs: [
       "Designed ECLIPSE: a comprehensive spacecraft-agnostic cryogenic propellant transfer protocol that minimizes propellant losses during line chilldown, mitigates over-pressurization during tank chilldown, and monitors two-phase propellant flow regimes with real-time capacitance measurements.",
-      "Led cross-functional instrumentation team in developing a production-grade capacitance sensor with automated testing frameworks to monitor ECLIPSE's reliability in mission-critical aerospace applications.",
+      "Led cross-functional instrumentation team in developing a production-grade capacitance sensor with testing frameworks to monitor ECLIPSE's reliability in mission-critical aerospace applications.",
       "Built a machine learning pipeline using Fuzzy C-means clustering to classify flow regimes in real-time and Gaussian Process Regression to balance sparse simulation datasets from ANSYS fluid models.",
       "Delivered award-winning presentation at Marshall Space Flight Center (Best Technical Presentation Award), with NASA's CFM department currently evaluating our solution for the Human Landing System."
     ],
