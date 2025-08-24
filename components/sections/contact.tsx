@@ -98,9 +98,8 @@ export function Contact() {
             </CardHeader>
             <CardContent className="space-y-4 sm:space-y-6">
               <p className="text-slate-300 leading-relaxed text-base sm:text-lg">
-                I'm always interested in new development and collaboration opportunities, especially for large and
-                ambitious projects. If you are interested in my work or would like to talk about a unique opportunity,
-                feel free to reach out!
+                I'm always interested in new development and collaboration opportunities, especially for large and ambitious projects.
+                My intention is to learn and build in public, so feel free to reach out to discuss my work or upcoming opportunities.
               </p>
 
               <div className="space-y-3 sm:space-y-4">
