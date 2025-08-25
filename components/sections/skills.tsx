@@ -4,13 +4,12 @@ import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Progress } from "@/components/ui/progress"
+
 import { AnimatedLetters } from "@/components/animated-letters"
 
 interface Skill {
   name: string
-  level: "beginner" | "intermediate" | "advanced" | "expert"
-  percentage: number
+  years: number
 }
 
 interface SkillGroup {
@@ -26,12 +25,12 @@ const skillGroups: SkillGroup[] = [
     name: "Programming Languages",
     showProficiency: true,
     skills: [
-      { name: "Python", level: "expert", percentage: 95 },
-      { name: "C++", level: "expert", percentage: 95 },
-      { name: "Java", level: "advanced", percentage: 90 },
-      { name: "JavaScript & TypeScript", level: "advanced", percentage: 85 },
-      { name: "SQL", level: "intermediate", percentage: 75 },
-      { name: "Swift", level: "intermediate", percentage: 70 },
+      { name: "Python", years: 6 },
+      { name: "C++", years: 5 },
+      { name: "Java", years: 4 },
+      { name: "JavaScript & TypeScript", years: 3 },
+      { name: "SQL", years: 3 },
+      { name: "Swift", years: 2 },
     ],
   },
   {
@@ -39,12 +38,12 @@ const skillGroups: SkillGroup[] = [
     name: "Frameworks & Libraries",
     showProficiency: true,
     skills: [
-      { name: "React.js", level: "expert", percentage: 95 },
-      { name: "Flask", level: "advanced", percentage: 90 },
-      { name: "Node.js", level: "advanced", percentage: 85 },
-      { name: "Next.js", level: "advanced", percentage: 80 },
-      { name: "Angular", level: "intermediate", percentage: 70 },
-      { name: "Express.js", level: "intermediate", percentage: 70 },
+      { name: "React.js", years: 5 },
+      { name: "Flask", years: 4 },
+      { name: "Node.js", years: 3 },
+      { name: "Next.js", years: 3 },
+      { name: "Angular", years: 2 },
+      { name: "Express.js", years: 2 },
     ],
   },
   {
@@ -52,12 +51,12 @@ const skillGroups: SkillGroup[] = [
     name: "Development Tools",
     showProficiency: true,
     skills: [
-      { name: "Visual Studio Code", level: "expert", percentage: 95 },
-      { name: "Amazon Web Services (AWS)", level: "advanced", percentage: 90 },
-      { name: "Hugging Face", level: "advanced", percentage: 85 },
-      { name: "PostgreSQL", level: "advanced", percentage: 85 },
-      { name: "Git", level: "advanced", percentage: 85 },
-      { name: "Docker", level: "intermediate", percentage: 70 },
+      { name: "Visual Studio Code", years: 6 },
+      { name: "Amazon Web Services (AWS)", years: 4 },
+      { name: "Hugging Face", years: 3 },
+      { name: "PostgreSQL", years: 3 },
+      { name: "Git", years: 4 },
+      { name: "Docker", years: 2 },
     ],
   },
   {
@@ -65,28 +64,25 @@ const skillGroups: SkillGroup[] = [
     name: "Machine Learning Frameworks",
     showProficiency: true,
     skills: [
-      { name: "TensorFlow", level: "advanced", percentage: 90 },
-      { name: "PyTorch", level: "advanced", percentage: 85 },
-      { name: "Scikit-learn", level: "advanced", percentage: 85 },
-      { name: "Pandas", level: "expert", percentage: 95 },
-      { name: "NumPy", level: "advanced", percentage: 90 },
-      { name: "LangChain", level: "beginner", percentage: 65 },
+      { name: "TensorFlow", years: 4 },
+      { name: "PyTorch", years: 3 },
+      { name: "Scikit-learn", years: 4 },
+      { name: "Pandas", years: 5 },
+      { name: "NumPy", years: 4 },
+      { name: "LangChain", years: 1 },
     ],
   },
 ]
 
-const getLevelColor = (level: string) => {
-  switch (level) {
-    case "expert":
-      return "bg-green-400/20 text-green-400"
-    case "advanced":
-      return "bg-blue-400/20 text-blue-400"
-    case "intermediate":
-      return "bg-yellow-400/20 text-yellow-400"
-    case "beginner":
-      return "bg-red-400/20 text-red-400"
-    default:
-      return "bg-slate-400/20 text-slate-400"
+const getYearsColor = (years: number) => {
+  if (years >= 5) {
+    return "bg-green-400/20 text-green-400"
+  } else if (years >= 3) {
+    return "bg-blue-400/20 text-blue-400"
+  } else if (years >= 2) {
+    return "bg-yellow-400/20 text-yellow-400"
+  } else {
+    return "bg-red-400/20 text-red-400"
   }
 }
 
@@ -125,22 +121,14 @@ export function Skills() {
                   className="bg-slate-800/50 border-slate-700 hover:border-yellow-400/50 transition-all duration-300"
                 >
                   <CardContent className="p-4 sm:p-6">
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center justify-between">
                       <h3 className="font-semibold text-white text-sm sm:text-base truncate pr-2">{skill.name}</h3>
                       {group.showProficiency && (
-                        <Badge className={`${getLevelColor(skill.level)} text-xs flex-shrink-0`}>{skill.level}</Badge>
+                        <Badge className={`${getYearsColor(skill.years)} text-xs flex-shrink-0`}>
+                          {skill.years} {skill.years === 1 ? 'year' : 'years'}
+                        </Badge>
                       )}
                     </div>
-
-                    {group.showProficiency && (
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-xs sm:text-sm">
-                          <span className="text-slate-400">Proficiency</span>
-                          <span className="text-yellow-400">{skill.percentage}%</span>
-                        </div>
-                        <Progress value={skill.percentage} className="h-2 bg-slate-700" />
-                      </div>
-                    )}
                   </CardContent>
                 </Card>
               ))}
