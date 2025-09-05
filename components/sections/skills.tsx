@@ -90,12 +90,21 @@ const skillGroups: SkillGroup[] = [
     name: "Programming Languages",
     showProficiency: true,
     skills: [
-      { name: "Python", years: 5, icon: "/logos/python.png" },
-      { name: "C++", years: 4, icon: "/logos/cpp.png" }, // Example: custom image path
-      { name: "Java", years: 4, icon: <JavaIcon /> },
-      { name: "JavaScript & TypeScript", years: 3, icon: <JavaScriptIcon /> },
+      { name: "Python", years: 7, icon: "/logos/python.png" },
+      { name: "Java", years: 5, icon: <JavaIcon /> },
+      { name: "C++", years: 5, icon: "/logos/cpp.png" }, // Example: custom image path
+      { name: "JavaScript", years: 4, icon: <JavaScriptIcon /> },
+      { name: "TypeScript", years: 4, icon: <TypeScriptIcon />  },
       { name: "SQL", years: 3, icon: <Database className="w-5 h-5 text-orange-400" /> },
-      { name: "Swift", years: 2, icon: "/logos/swift.png" }, // Example: custom image path
+      { name: "HTML", years: 3, icon: "/logos/html.png" },
+      { name: "CSS", years: 3, icon: "/logos/css.png" },
+      { name: "Swift", years: 3, icon: "/logos/swift.png" },
+      { name: "C", years: 2, icon: "/logos/c.png" },
+      { name: "Verilog", years: 2, icon: "/logos/verilog.png" },
+      { name: "MIPS", years: 2, icon: "/logos/mips.png" },
+      { name: "Golang", years: 2, icon: "/logos/golang.png" },
+      { name: "R", years: 2, icon: "/logos/r.png" }, // Example: custom image path
+      { name: "Dart", years: 2, icon: "/logos/dart.png" },
     ],
   },
   {
@@ -103,12 +112,21 @@ const skillGroups: SkillGroup[] = [
     name: "Frameworks & Libraries",
     showProficiency: true,
     skills: [
-      { name: "React.js", years: 5, icon: <ReactIcon /> },
-      { name: "Flask", years: 4, icon: "/logos/flask.png" }, // Example: custom image path
-      { name: "Node.js", years: 3, icon: <NodeIcon /> },
+      { name: "React.js", years: 4, icon: <ReactIcon /> },
+      { name: "Node.js", years: 4, icon: <NodeIcon /> },
+      { name: "Spring Boot", years: 3, icon: "/logos/springboot.png" },
+      { name: "RESTful API", years: 3, icon: "/logos/restful.png" },
+      { name: "Flask", years: 3, icon: "/logos/flask.png" },
+      { name: "Django", years: 3, icon: "/logos/django.png" },
       { name: "Next.js", years: 3, icon: "/logos/next.png" }, // Example: custom image path
       { name: "Angular", years: 3, icon: "/logos/angular.png" }, // Example: custom image path
-      { name: "Express.js", years: 2, icon: <Zap className="w-5 h-5 text-green-400" /> },
+      { name: "Express.js", years: 2, icon: "/logos/express.png" },
+      { name: "GraphQL", years: 2, icon: "/logos/graphql.png" },
+      { name: "WebSockets", years: 2, icon: "/logos/websockets.png" },
+      { name: "FastAPI", years: 2, icon: "/logos/fastapi.png" },
+      { name: "Tailwind CSS", years: 2, icon: "/logos/tailwind.png" },
+      { name: "SwiftUI", years: 2, icon: "/logos/swiftui.png" },
+      { name: "Flutter", years: 2, icon: "/logos/flutter.png" },
     ],
   },
   {
@@ -116,12 +134,21 @@ const skillGroups: SkillGroup[] = [
     name: "Development Tools",
     showProficiency: true,
     skills: [
-      { name: "Amazon Web Services", years: 3, icon: "/logos/aws.png" }, // Example: custom image path
-      { name: "Hugging Face", years: 3, icon: "/logos/huggingface.png" },
-      { name: "PostgreSQL", years: 3, icon: "/logos/postgresql.png" }, // Example: custom image path
-      { name: "Git", years: 4, icon: "/logos/git.png" }, // Example: custom image path
-      { name: "Docker", years: 2, icon: "/logos/docker.png" }, // Example: custom image path
+      { name: "Amazon Web Services", years: 3, icon: "/logos/aws.png" },
+      { name: "Docker", years: 3, icon: "/logos/docker.png" },
+      { name: "CI/CD", years: 3, icon: "/logos/cicd.png" },
+      { name: "Kubernetes", years: 2, icon: "/logos/kubernetes.png" },
+      { name: "Linux", years: 2, icon: "/logos/linux.png" },
+      { name: "Apache Ecosystem", years: 2, icon: "/logos/apache.png" },
+      { name: "PostgreSQL", years: 2, icon: "/logos/postgresql.png" },
+      { name: "MySQL", years: 2, icon: "/logos/mysql (1).png" },
+      { name: "MongoDB", years: 2, icon: "/logos/mongodb.png" },
       { name: "Google Firebase", years: 2, icon: "/logos/firebase.png" },
+      { name: "Redis", years: 2, icon: "/logos/redis.png" },
+      { name: "Jest", years: 2, icon: "/logos/jest2.png" },
+      { name: "Agile", years: 2, icon: "/logos/agile.png" },
+      { name: "Git", years: 6, icon: "/logos/git.png" },
+      { name: "GitHub", years: 6, icon: "/logos/github.png" },
     ],
   },
   {
@@ -129,25 +156,34 @@ const skillGroups: SkillGroup[] = [
     name: "Machine Learning Frameworks",
     showProficiency: true,
     skills: [
-      { name: "TensorFlow", years: 4, icon: "/logos/tensorflow.png" }, // Example: custom image path
-      { name: "PyTorch", years: 4, icon: "/logos/pytorch.png" }, // Example: custom image path
-      { name: "Scikit-learn", years: 4, icon: "/logos/scikit-learn.png" }, // Example: custom image path
-      { name: "Pandas", years: 3, icon: "/logos/pandas.png" }, // Example: custom image path
-      { name: "NumPy", years: 3, icon: "/logos/numpy.png" }, // Example: custom image path
+      { name: "PyTorch", years: 5, icon: "/logos/pytorch.png" },
+      { name: "TensorFlow", years: 5, icon: "/logos/tensorflow.png" }, // Example: custom image path
+      { name: "OpenCV", years: 4, icon: "/logos/opencv.png" },
+      { name: "NumPy", years: 4, icon: "/logos/numpy.png" },
+      { name: "Pandas", years: 4, icon: "/logos/pandas.png" }, // Example: custom image path
+      { name: "Scikit-learn", years: 4, icon: "/logos/scikit-learn.png" },
+      { name: "Keras", years: 4, icon: "/logos/keras.png" },
+      { name: "OpenAI", years: 3, icon: "/logos/openai.png" },
+      { name: "Gemini", years: 3, icon: "/logos/gemini.png" },
+      { name: "Hugging Face", years: 3, icon: "/logos/huggingface.png" },
+      { name: "Matplotlib", years: 3, icon: "/logos/matplotlib.png" },
+      { name: "spaCy", years: 2, icon: "/logos/spacy.png" },
+      { name: "NTLK", years: 2, icon: "/logos/nltk.png" },
       { name: "LangChain", years: 2, icon: <Link className="w-5 h-5 text-purple-400" /> },
+      { name: "Ollama", years: 1, icon: "/logos/ollama (1).png" },
     ],
   },
 ]
 
 const getYearsColor = (years: number) => {
   if (years >= 5) {
-    return "bg-green-400/20 text-green-400"
+    return "bg-purple-400/20 text-purple-400"
   } else if (years >= 3) {
     return "bg-blue-400/20 text-blue-400"
   } else if (years >= 2) {
-    return "bg-yellow-400/20 text-yellow-400"
+    return "bg-green-400/20 text-green-400"
   } else {
-    return "bg-red-400/20 text-red-400"
+    return "bg-yellow-400/20 text-yellow-400"
   }
 }
 

@@ -71,7 +71,7 @@ const projects: Project[] = [
   {
     id: "2",
     title: "Illinois Space Society's Spaceshot Team",
-    role: "Software Engineer",
+    role: "Flight Software Engineer",
     date: "August 2024 - Present",
     description:
       "Building and testing rocket guidance, navigation, & controls software to reach space.",
