@@ -96,7 +96,7 @@ export function About() {
                 <CardContent className="p-4 sm:p-6 h-full flex flex-col justify-center">
                   <p className="text-slate-300 leading-relaxed mb-4 sm:mb-6 text-sm sm:text-base">
                     I am a Computer Science and Mathematics student at the University of Illinois at
-                    Urbana-Champaign, with an interest in agentic AI-powered autonomous systems, modern networking & infrastructure, and large-scale data extraction for language model engineering. 
+                    Urbana-Champaign, with interests in full stack application development, agentic AI-powered automation, modern networking & infrastructure, and large-scale data extraction for language model engineering. 
                   </p>
 
                   <p className="text-slate-300 leading-relaxed mb-4 sm:mb-6 text-sm sm:text-base">
