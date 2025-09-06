@@ -38,7 +38,12 @@ export async function POST(request: NextRequest) {
     for (const envVar of requiredEnvVars) {
       if (!process.env[envVar]) {
         console.error(`Missing environment variable: ${envVar}`)
-        return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
+        console.error('Available env vars:', Object.keys(process.env).filter(key => key.startsWith('CLOUDFLARE') || key.includes('RESUME') || key.includes('PORTFOLIO')))
+        return NextResponse.json({ 
+          error: 'Server configuration error', 
+          missing: envVar,
+          details: process.env.NODE_ENV === 'development' ? `Missing ${envVar}` : undefined
+        }, { status: 500 })
       }
     }
 
