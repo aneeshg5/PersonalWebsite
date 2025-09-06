@@ -18,9 +18,10 @@ interface CarouselItem {
 interface ImageCarouselProps {
   items: CarouselItem[]
   onResumeDownload: () => void
+  isDownloading?: boolean
 }
 
-export function ImageCarousel({ items, onResumeDownload }: ImageCarouselProps) {
+export function ImageCarousel({ items, onResumeDownload, isDownloading = false }: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -80,51 +81,64 @@ export function ImageCarousel({ items, onResumeDownload }: ImageCarouselProps) {
     return (
       <Card className="w-full h-full overflow-hidden relative">
         <CardContent className="p-0 h-full relative">
-          {/* Background with Multiple Layers */}
+          {/* UIUC Background with Overlays */}
           <div className="absolute inset-0">
-            {/* Base gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-purple-500/10 to-blue-600/20" />
-
-            {/* Animated gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400/10 via-transparent to-purple-500/10 animate-pulse" />
-
-            {/* Subtle pattern overlay */}
-            <div className="absolute inset-0 opacity-30">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform rotate-12" />
-              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-white/3 to-transparent transform -rotate-12" />
+            {/* UIUC Background Image */}
+            <div className="absolute inset-0">
+              <img
+                src="/images/backgrounds/uiuc-background.png"
+                alt="UIUC Campus"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Fallback to gradient if image doesn't load
+                  e.currentTarget.style.display = "none"
+                  e.currentTarget.nextElementSibling!.style.display = "block"
+                }}
+              />
+              {/* Fallback gradient background */}
+              <div className="hidden absolute inset-0 bg-gradient-to-br from-orange-400/20 via-blue-500/10 to-orange-600/20" />
             </div>
 
-            {/* Floating particles/sparkles effect */}
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-slate-900/60" />
+
+            {/* UIUC-themed gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-orange-400/15 via-transparent to-blue-600/15" />
+
+            {/* Subtle animated overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-400/5 via-transparent to-blue-600/5 animate-pulse" />
+
+            {/* Floating particles with UIUC colors */}
             <div className="absolute inset-0">
-              {Array.from({ length: 8 }).map((_, i) => (
+              {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className="absolute w-1 h-1 bg-yellow-400/40 rounded-full animate-pulse"
+                  className="absolute w-1 h-1 bg-orange-400/30 rounded-full animate-pulse"
                   style={{
-                    left: `${20 + i * 10}%`,
-                    top: `${15 + i * 8}%`,
-                    animationDelay: `${i * 0.5}s`,
-                    animationDuration: `${2 + i * 0.3}s`,
+                    left: `${15 + i * 12}%`,
+                    top: `${10 + i * 10}%`,
+                    animationDelay: `${i * 0.7}s`,
+                    animationDuration: `${2.5 + i * 0.4}s`,
                   }}
                 />
               ))}
-              {Array.from({ length: 6 }).map((_, i) => (
-                <Sparkles
-                  key={`sparkle-${i}`}
-                  className="absolute w-3 h-3 text-yellow-400/30 animate-pulse"
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={`blue-${i}`}
+                  className="absolute w-1 h-1 bg-blue-400/30 rounded-full animate-pulse"
                   style={{
-                    right: `${10 + i * 12}%`,
-                    bottom: `${20 + i * 10}%`,
-                    animationDelay: `${i * 0.7}s`,
-                    animationDuration: `${3 + i * 0.4}s`,
+                    right: `${10 + i * 15}%`,
+                    bottom: `${15 + i * 12}%`,
+                    animationDelay: `${i * 0.9}s`,
+                    animationDuration: `${3 + i * 0.3}s`,
                   }}
                 />
               ))}
             </div>
 
-            {/* Border glow effect */}
-            <div className="absolute inset-0 rounded-lg border border-yellow-400/20 shadow-inner" />
-            <div className="absolute inset-0 rounded-lg border border-purple-500/10" />
+            {/* Border effects */}
+            <div className="absolute inset-0 rounded-lg border border-orange-400/20 shadow-inner" />
+            <div className="absolute inset-0 rounded-lg border border-blue-500/10" />
           </div>
 
           {/* Content Layer */}
@@ -161,7 +175,7 @@ export function ImageCarousel({ items, onResumeDownload }: ImageCarouselProps) {
                   variant="secondary"
                   className={`text-xs sm:text-sm font-medium px-3 py-1 whitespace-nowrap transition-all duration-300 hover:scale-105 ${
                     badgeIndex === 0
-                      ? "bg-gradient-to-r from-yellow-400/30 to-yellow-500/30 text-yellow-300 border border-yellow-400/40"
+                      ? "bg-gradient-to-r from-orange-400/30 to-orange-500/30 text-orange-300 border border-orange-400/40"
                       : badgeIndex === 1
                         ? "bg-gradient-to-r from-blue-400/30 to-blue-500/30 text-blue-300 border border-blue-400/40"
                         : "bg-gradient-to-r from-green-400/30 to-green-500/30 text-green-300 border border-green-400/40"
@@ -175,14 +189,26 @@ export function ImageCarousel({ items, onResumeDownload }: ImageCarouselProps) {
             {/* Enhanced Download Button */}
             <Button
               onClick={onResumeDownload}
-              className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-slate-900 font-semibold text-sm sm:text-base h-10 sm:h-12 touch-manipulation transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/30"
+              disabled={isDownloading}
+              className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-slate-900 font-semibold text-sm sm:text-base h-10 sm:h-12 touch-manipulation transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/30 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-yellow-300/50 to-yellow-400/50 opacity-0 hover:opacity-100 transition-opacity duration-300" />
               <div className="relative z-10 flex items-center justify-center">
-                <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                Download Resume
+                {isDownloading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-slate-900 mr-2"></div>
+                    Downloading...
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                    Download Resume
+                  </>
+                )}
               </div>
-              <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
+              {!isDownloading && (
+                <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
+              )}
             </Button>
           </div>
         </CardContent>

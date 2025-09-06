@@ -12,7 +12,7 @@ import { Lock, Eye, EyeOff, X } from "lucide-react"
 interface PasscodeModalProps {
   isOpen: boolean
   onClose: () => void
-  onSuccess: () => void
+  onSuccess: (passcode: string) => void
   title: string
   description: string
 }
@@ -43,23 +43,10 @@ export function PasscodeModal({ isOpen, onClose, onSuccess, title, description }
     setError("")
 
     try {
-      const response = await fetch('/api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ passcode }),
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        onSuccess()
-        onClose()
-      } else {
-        setError("Incorrect passcode. Please try again.")
-        setPasscode("")
-      }
+      // Pass the passcode to the parent component for handling
+      // The parent will handle the API call and authentication
+      onSuccess(passcode)
+      onClose()
     } catch (error) {
       setError("An error occurred. Please try again.")
     } finally {

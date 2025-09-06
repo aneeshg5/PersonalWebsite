@@ -7,11 +7,11 @@ import { ImageCarousel } from "@/components/image-carousel"
 import { Plane, ToyBrick, FlaskConical, Rocket } from "lucide-react"
 import { PasscodeModal } from "@/components/passcode-modal"
 import { useAuth } from "@/hooks/use-auth"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export function About() {
   const highlights = [
-    { icon: Plane, text: "Travel & Food" },
+    { icon: Plane, text: "Travel & Hiking" },
     { icon: ToyBrick, text: "Designing LEGO Sets" },
     { icon: FlaskConical, text: "Research & Projects" },
     { icon: Rocket, text: "Rocketry & Aerospace" },
@@ -50,31 +50,126 @@ export function About() {
 
   const { isAuthenticated, authenticate } = useAuth()
   const [showPasscodeModal, setShowPasscodeModal] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
-  const handleResumeDownload = () => {
-    if (!isAuthenticated) {
+  // Auto-generate access token for users who already have portfolio access
+  useEffect(() => {
+    if (isAuthenticated && !accessToken) {
+      const urlParams = new URLSearchParams(window.location.search)
+      const portfolioAccessToken = urlParams.get('access')
+      
+      if (portfolioAccessToken) {
+        // User has portfolio access, automatically get resume access token
+        fetch('/api/auth/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: portfolioAccessToken })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.accessToken) {
+            setAccessToken(data.accessToken)
+          }
+        })
+        .catch(error => {
+          console.error('Auto-auth failed:', error)
+        })
+      }
+    }
+  }, [isAuthenticated, accessToken])
+
+  const handleResumeDownload = async () => {
+    if (!isAuthenticated || !accessToken) {
       setShowPasscodeModal(true)
       return
     }
     
-    const link = document.createElement("a")
-    link.href = "/resume.pdf"
-    link.download = "Aneesh_Ganti_Resume.pdf"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
-
-  const handlePasscodeSuccess = () => {
-    authenticate()
-    setTimeout(() => {
-      const link = document.createElement("a");
-      link.href = "/resume.pdf"
-      link.download = "Aneesh_Ganti_Resume.pdf"
+    try {
+      setIsDownloading(true)
+      
+      // Request secure download URL
+      const response = await fetch('/api/resume/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accessToken })
+      })
+      
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Download failed')
+      }
+      
+      const { downloadUrl, filename } = await response.json()
+      
+      // Trigger secure download with proper attributes
+      const link = document.createElement("a")
+      link.href = downloadUrl
+      link.download = filename || "Aneesh_Ganti_Resume.pdf"
+      link.target = "_blank"
+      link.rel = "noopener noreferrer"
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-    }, 100)
+      
+      console.log('Resume downloaded successfully')
+    } catch (error) {
+      console.error('Download failed:', error)
+      alert('Download failed. Please try again.')
+    } finally {
+      setIsDownloading(false)
+    }
+  }
+
+  const handlePasscodeSuccess = async (passcode: string) => {
+    try {
+      // Verify passcode and get access token
+      const response = await fetch('/api/auth/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode })
+      })
+      
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Authentication failed')
+      }
+      
+      const { accessToken: token } = await response.json()
+      setAccessToken(token)
+      authenticate()
+      
+      // Auto-trigger download after successful auth
+      setTimeout(async () => {
+        try {
+          const downloadResponse = await fetch('/api/resume/download', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ accessToken: token })
+          })
+          
+          if (!downloadResponse.ok) {
+            throw new Error('Download failed')
+          }
+          
+          const { downloadUrl, filename } = await downloadResponse.json()
+          
+          const link = document.createElement("a")
+          link.href = downloadUrl
+          link.download = filename || "Aneesh_Ganti_Resume.pdf"
+          link.target = "_blank"
+          link.rel = "noopener noreferrer"
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        } catch (error) {
+          console.error('Auto-download failed:', error)
+        }
+      }, 100)
+    } catch (error) {
+      console.error('Authentication failed:', error)
+      alert('Authentication failed. Please check your passcode.')
+    }
   }
 
   return (
@@ -123,7 +218,11 @@ export function About() {
             {}
             <ScrollFadeWrapper className="w-full flex justify-center order-1 lg:order-2">
               <div className="flex flex-col items-center pb-8 sm:pb-12">
-                <ImageCarousel items={carouselItems} onResumeDownload={handleResumeDownload} />
+                <ImageCarousel 
+                  items={carouselItems} 
+                  onResumeDownload={handleResumeDownload}
+                  isDownloading={isDownloading}
+                />
               </div>
             </ScrollFadeWrapper>
           </div>
