@@ -204,6 +204,46 @@ const projects: Project[] = [
     ],
     links: [{ label: "DevPost", url: "https://devpost.com/software/tensor-crop-tracker-tct-ai" }, { label: "GitHub", url: "https://github.com/prahity/plantDiseaseDetection" }],
   },
+  {
+    id: "6",
+    title: "Full-Stack Developer Portfolio Platform",
+    role: "Full-Stack Software Engineer",
+    date: "December 2024 - Present",
+    description:
+      "Modern portfolio website with secure document management, analytics, and animations.",
+    longDescription:
+      "A production-ready portfolio website built to showcase technical expertise and promising projects. Features secure resume access, real-time analytics, and interactive UI components with modern web technologies and cloud infrastructure.",
+    technologies: ["Next.js", "TypeScript", "React", "Cloudflare R2", "Vercel", "AWS SDK", "Node.js", "REST APIs", "JWT"],
+    images: ["/placeholder.svg?height=400&width=600"],
+    projectImage: "/images/portfolio/Portfolio/portfolio-cover.png",
+    modalImages: [
+      {
+        src: "/images/portfolio/Portfolio/secure-access.png",
+        caption:
+          "Secure resume download system with passcode authentication and access tokens."
+      },
+      {
+        src: "/images/portfolio/Portfolio/send-message.png",
+        caption:
+          "Client-side email integration using EmailJS for seamless contact form submissions without backend."
+      },
+      {
+        src: "/images/portfolio/Portfolio/responsive-design.jpeg",
+        caption:
+          "Mobile-first responsive design with smooth animations and modern UI components."
+      }
+    ],
+    paragraphs: [
+      "Developed responsive React components with TypeScript, featuring custom CSS animations, dynamic skill visualization, and interactive project modals optimized for both desktop and mobile experiences.",
+      "Built a secure document management system using Cloudflare R2 object storage with JWT-based authentication access limiting tokens and passcode verification to protect sensitive information.",
+      "Integrated Vercel Analytics for real-time visitor tracking and engagement metrics, providing insights into recruiter interaction patterns and portfolio performance.",
+      "Deployed production-ready application with CI/CD pipeline, custom domain configuration, SSL certificates, and environment-based configuration management for scalable web hosting."
+    ],
+    links: [
+      { label: "Live Site", url: "https://aneeshganti.dev" },
+      { label: "GitHub", url: "https://github.com/aneeshg5/PersonalWebsite" }
+    ]
+  }
 ]
 
 export function Portfolio() {

@@ -73,7 +73,7 @@ export function Contact() {
   const contactInfo = [
     { icon: GraduationCap, label: "Major", value: "Mathematics and Computer Science, B.S." },
     { icon: MapPin, label: "Location", value: "Bay Area, CA / Urbana, IL / Austin, TX" },
-    { icon: Lightbulb, label: "Currently Working On", value: "Promo Pigeon" },
+    { icon: Lightbulb, label: "Currently Working On", value: "Promo Pigeon Automation Platform" },
   ]
 
   return (

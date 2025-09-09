@@ -18,13 +18,7 @@ export function Home() {
 
   // Responsive positioning variables
   const VERTICAL_OFFSET = "pt-4 sm:pt-8 md:pt-12 lg:pt-17"
-  const ARROW_BOTTOM_POSITION = "bottom-8 sm:bottom-10 md:bottom-0"
-  const ARROW_HORIZONTAL_OFFSET = "left-39/80"
-  
-  // 🎯 CUSTOMIZABLE BOUNCING ARROW POSITIONING - Adjust this value to move arrow up/down
-  // Higher numbers = arrow moves UP (further from bottom)
-  // Lower numbers = arrow moves DOWN (closer to bottom)
-  // Each unit = 4px (Tailwind spacing scale)
+
   const BOUNCING_ARROW_BOTTOM_OFFSET = 10 // bottom-20 = 80px from bottom
 
   useEffect(() => {
