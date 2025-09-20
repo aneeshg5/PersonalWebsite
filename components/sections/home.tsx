@@ -140,7 +140,7 @@ export function Home() {
               {showLine4 && (
                 <div>
                   <AnimatedLetters
-                    text="AI & ML Specialist"
+                    text="AI & ML Enthusiast"
                     className="text-yellow-400"
                     onComplete={() => setShowLine5(true)}
                   />
