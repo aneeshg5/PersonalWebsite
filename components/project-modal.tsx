@@ -39,7 +39,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
 
   // Responsive positioning variables
   const CAROUSEL_VERTICAL_OFFSET = "justify-start pt-4 sm:pt-6 md:pt-8"
-  const CAPTION_TOP_MARGIN = "mt-8 sm:mt-10 md:mt-12"
+  const CAPTION_TOP_MARGIN = "mt-4 sm:mt-5 md:mt-6"
   const MODAL_VERTICAL_OFFSET = "0px"
 
   useEffect(() => {
