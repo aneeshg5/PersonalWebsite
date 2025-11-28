@@ -53,6 +53,26 @@ export function About() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
+  // Load access token from session storage on mount
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem('resume_access_token')
+    if (storedToken) {
+      // Validate token hasn't expired
+      try {
+        const tokenData = JSON.parse(atob(storedToken))
+        if (Date.now() < tokenData.expires) {
+          setAccessToken(storedToken)
+        } else {
+          // Token expired, remove it
+          sessionStorage.removeItem('resume_access_token')
+        }
+      } catch (error) {
+        console.error('Failed to parse stored token:', error)
+        sessionStorage.removeItem('resume_access_token')
+      }
+    }
+  }, [])
+
   // Auto-generate access token for users who already have portfolio access
   useEffect(() => {
     if (isAuthenticated && !accessToken) {
@@ -70,6 +90,8 @@ export function About() {
         .then(data => {
           if (data.accessToken) {
             setAccessToken(data.accessToken)
+            // Persist token in session storage
+            sessionStorage.setItem('resume_access_token', data.accessToken)
           }
         })
         .catch(error => {
@@ -97,6 +119,15 @@ export function About() {
       
       if (!response.ok) {
         const error = await response.json()
+        
+        // If token expired, clear it and show passcode modal
+        if (error.error === 'Access token expired' || error.error === 'Invalid access token') {
+          setAccessToken(null)
+          sessionStorage.removeItem('resume_access_token')
+          setShowPasscodeModal(true)
+          return
+        }
+        
         throw new Error(error.error || 'Download failed')
       }
       
@@ -137,6 +168,8 @@ export function About() {
       
       const { accessToken: token } = await response.json()
       setAccessToken(token)
+      // Persist token in session storage
+      sessionStorage.setItem('resume_access_token', token)
       authenticate()
       
       // Auto-trigger download after successful auth
