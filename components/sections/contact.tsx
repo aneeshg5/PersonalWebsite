@@ -353,7 +353,7 @@ export function Contact() {
                   onClick={() => {
                     const a = document.createElement("a")
                     a.href = "/resume.pdf"
-                    a.download = "Aneesh_Ganti_Resume.pdf"
+                    a.download = "Aneesh_Ganti_2027_Resume.pdf"
                     document.body.appendChild(a)
                     a.click()
                     document.body.removeChild(a)

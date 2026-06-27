@@ -9,6 +9,12 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: '/resume.pdf',
+        headers: [
+          { key: 'Content-Disposition', value: 'attachment; filename="Aneesh_Ganti_2027_Resume.pdf"' },
+        ],
+      },
+      {
         source: '/(.*)',
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },
