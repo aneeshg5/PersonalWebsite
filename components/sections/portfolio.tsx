@@ -1,456 +1,522 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { AnimatedLetters } from "@/components/animated-letters"
-import { ProjectModal } from "@/components/project-modal"
-import { Calendar, User, ChevronLeft, ChevronRight } from "lucide-react"
-import { PasscodeModal } from "@/components/passcode-modal"
-import { useAuth } from "@/hooks/use-auth"
-import { useDynamicBadgeCount } from "@/hooks/use-dynamic-badge-count"
+import { useState, useEffect } from "react"
+import { SectionHeader } from "@/components/section-header"
+import { PROJECTS, SKILL_CATEGORIES } from "@/lib/data"
 
-interface ProjectImage {
-  src: string
-  caption: string
+const EXTRA_ICONS: Record<string, string> = {
+  'React Native':   'https://cdn.simpleicons.org/react/61DAFB',
+  'Supabase':       'https://cdn.simpleicons.org/supabase/3ECF8E',
+  'OpenAI':         'https://api.iconify.design/simple-icons:openai.svg?color=%23ffffff',
+  'Next.js':        'https://cdn.simpleicons.org/nextdotjs/ffffff',
+  'Rust':           'https://cdn.simpleicons.org/rust/ffffff',
+  'WASM':           'https://cdn.simpleicons.org/webassembly/654FF0',
+  'WebGL':          'https://cdn.simpleicons.org/webgl/990000',
+  'AWS SES':        'https://api.iconify.design/logos:aws.svg',
+  'PyTorch Mobile': 'https://cdn.simpleicons.org/pytorch/EE4C2C',
+  'GPT-4':          'https://api.iconify.design/simple-icons:openai.svg?color=%23ffffff',
+  'Firebase':       'https://cdn.simpleicons.org/firebase/FFCA28',
+  'HTML5 Canvas':   'https://cdn.simpleicons.org/html5/E34F26',
+  'IndexedDB':      'https://cdn.simpleicons.org/sqlite/003B57',
+  'Web Workers':    'https://cdn.simpleicons.org/javascript/F7DF1E',
+  'Zod':            'https://cdn.simpleicons.org/zod/3068B7',
+  'Vitest':         'https://cdn.simpleicons.org/vitest/6E9F18',
+  'Playwright':     'https://api.iconify.design/logos:playwright.svg',
+  'pytest':         'https://cdn.simpleicons.org/pytest/0A9EDC',
+  'fuzzy-c-means':  'https://api.iconify.design/mdi:scatter-plot.svg?color=%23a78bfa',
+  'ANSYS':          'https://cdn.simpleicons.org/ansys/FFB71B',
+  'WebAssembly':    'https://cdn.simpleicons.org/webassembly/654FF0',
+  'WebGL2':         'https://cdn.simpleicons.org/webgl/990000',
+  'Eigen':          'https://api.iconify.design/mdi:matrix.svg?color=%2310B981',
+  'Chart.js':       'https://cdn.simpleicons.org/chartdotjs/FF6384',
+  'Cloudflare':     'https://cdn.simpleicons.org/cloudflare/F38020',
 }
 
-interface Project {
-  id: string
-  title: string
-  role: string
-  date: string
-  description: string
-  longDescription: string
-  technologies: string[]
-  images: string[]
-  modalImages: ProjectImage[]
-  paragraphs: string[]
-  links?: { label: string; url: string }[]
-  projectImage: string
-}
-
-const projects: Project[] = [
-  {
-    id: "1",
-    title: "Promo Pigeon Automation Platform",
-    role: "Full-Stack Software Engineer",
-    date: "April 2025 - Present",
-    description:
-      "A smart sales automation platform for manufacturers seeking new clients for outreach campaigns.",
-    longDescription:
-      "Promo Pigeon is Tekweld Manufacturing's sales automation platform that helps find and onboard new clients at scale. It replaces manual lead hunting and one-off campaigns with a single workflow for lead discovery, outreach planning, and print-ready design.",
-    technologies: ["TypeScript", "React", "Python", "Amazon Web Services", "HTML", "CSS", "PostgreSQL", "RESTful APIs", "Docker", "Playwright", "BeautifulSoup"],
-    images: ["/placeholder.svg?height=400&width=600"],
-    projectImage: "/images/portfolio/Promo/promo-cover.png",
-    modalImages: [
-      {
-        src: "/images/portfolio/Promo/image2.png",
-        caption:
-          "Promo Pigeon dashboard for selecting businesses, products, and themes.",
-      },
-      {
-        src: "/images/portfolio/Promo/scrape.png",
-        caption:
-          "Google Maps scraping view that collects 90,000+ targeted business leads.",
-      },
-      {
-        src: "/images/portfolio/Promo/flyer.png",
-        caption:
-          "AI-assisted label preview with logo, background theme, and product details.",
-      },
-    ],
-    paragraphs: [
-      "Designed core workflow with Flask and PostgreSQL that takes business leads, links them to suggested products and themes, and generates print-ready labels for Tekweld's EPOD fulfillment pipeline.",
-      "Built the business lead engine with Playwright and BeautifulSoup that scrapes 1,000+ leads per region from Google Maps by SIC code, expanding Tekweld's contact coverage and reducing manual efforts.",
-      "Implemented node-based artwork system in Python to systematically assemble label and flyer PDFs for any product with AI-generated backgrounds, pre-designed templates, QR codes, and business details.",
-      "Integrated OpenAI + Gemini vision models that flag legibility or layout issues for consistent print quality.",
-      "Utilized React, TypeScript, Flask, PostgreSQL, Docker, and AWS cloud services for full-stack architecture."
-    ],
-  },
-  {
-    id: "2",
-    title: "Illinois Space Society's Spaceshot Team",
-    role: "Flight Software Engineer",
-    date: "August 2024 - Present",
-    description:
-      "Building and testing rocket guidance, navigation, & controls software to reach space.",
-    longDescription:
-      "The Illinois Space Society's Spaceshot Rocketry Program at UIUC is dedicated to developing a rocket capable of reaching the Karman line. This journey is split into multiple competitions and projects that work together to expand the engineering capabilities of the team.",
-    technologies: ["Python", "C++", "PlatformIO", "Docker", "MQTT", "Raspberry Pi", "Arduino"],
-    images: ["/placeholder.svg?height=400&width=600"],
-    projectImage: "/images/portfolio/Spaceshot/iss_cover_new.png",
-    modalImages: [
-      {
-        src: "/images/portfolio/Spaceshot/image1.png",
-        caption:
-          "Launched Aether II in Summer 2025 at the Friends of Amateur Rocketry near LA.",
-      },
-      {
-        src: "/images/portfolio/Spaceshot/sammy.jpg",
-        caption:
-          "Setting up SAM Turret: an autonomous rocket tracker with 6 degrees of freedom.",
-      },
-      {
-        src: "/images/portfolio/Spaceshot/ground.png",
-        caption:
-          "Ground station operations to monitor telemetry and live video feed from rocket.",
-      },
-    ],
-    paragraphs: [
-      "Led guidance, navigation, and control software development by debugging existing infrastructure and implementing new features to ensure active monitoring of our two-stage rocket.",
-      "Optimized and debugged SAM autonomous turret control software to track the rocket throughout flight trajectory using a directional Yagi antenna to maintain continuous telemetry communication.",
-      "Built and deployed an extended Kalman Filter to estimate two-stage rocket’s 6-DoF dynamics with mitigated impact of faulty sensor inputs. Performance validated during a 75,000+ feet altitude launch.",
-      "Monitored primary telemetry server and dual Feather radio systems for packet transmissions during rocket launches, ensuring real-time data collection and analysis.",
-    ],
-    links: [{ label: "Kalman Filter", url: "https://www.kalmanfilter.net/default.aspx" }, { label: "GitHub", url: "https://github.com/ISSUIUC/MIDAS-Software" }],
-  },
-  {
-    id: "3",
-    title: "NASA's 2025 Human Lander Challenge",
-    role: "Software & Simulations Lead",
-    date: "September 2024 - July 2025",
-    description:
-      "Designed ECLIPSE: a cryogenic propellant transfer protocol for NASA's Artemis Missions.",
-    longDescription:
-      "In-space cryogenic propellant transfer is necessary to achieve NASA's long-duration space missions. However, propellant boil-off during storage and transfer threatens mission longevity and integrity by depleting available propellant and increasing over-pressurization risks.",
-    technologies: ["Python", "Scikit-learn", "Ansys", "Pandas", "CFD", "Matplotlib", "Gaussian Process", "Fuzzy C-means"],
-    images: ["/placeholder.svg?height=400&width=600"],
-    projectImage: "/images/portfolio/HuLC/hulc-cover.png",
-    modalImages: [
-      {
-        src: "/images/portfolio/HuLC/forum-pres.png",
-        caption:
-          "ECLIPSE Technical Presentation at the 2025 Human Lander Challenge Forum",
-      },
-      {
-        src: "/images/portfolio/HuLC/poster.jpg",
-        caption:
-          "Answered questions from NASA evaluators about system design during the forum.",
-      },
-      {
-        src: "/images/portfolio/HuLC/award.png",
-        caption:
-          "Received Best Technical Presentation award and received mentorship from NASA CFM.",
-      },
-    ],
-    paragraphs: [
-      "Designed ECLIPSE: a spacecraft-agnostic propellant transfer protocol that minimizes propellant losses and over-pressurization during line transfer and monitors two-phase flow regimes in real-time.",
-      "Built a machine learning pipeline using Fuzzy C-means clustering to classify flow regimes in real-time and Gaussian Process Regression to balance sparse simulation datasets from ANSYS fluid models.",
-      "Led cross-functional instrumentation team in developing a production-grade capacitance sensor with testing frameworks to monitor ECLIPSE's reliability in mission-critical aerospace applications.",
-      "Delivered award-winning presentation at Marshall Space Flight Center (Best Technical Presentation Award), with NASA's CFM department currently evaluating our solution for the Human Landing System."
-    ],
-    links: [{ label: "Technical Paper", url: "https://hulc.nianet.org/wp-content/uploads/2025-HuLC-University-of-Illinois-Urbana-Champaign-Technical-Paper.pdf" }, { label: "Technical Poster", url: "https://hulc.nianet.org/wp-content/uploads/2025-HuLC-University-of-Illinois-Urbana-Champaign-Digital-Poster.pdf" }, { label: "Chart Deck", url: "https://hulc.nianet.org/wp-content/uploads/2025-HuLC-University-of-Illinois-Urbana-Champaign-Chart-Deck.pdf" }, { label: "GitHub", url: "https://github.com/ISSUIUC/HuLC_2025_UIUC" }],
-  },
-  {
-    id: "4",
-    title: "Quantum Computing Model Fitting Research",
-    role: "Research Assistant",
-    date: "October 2024 - Present",
-    description:
-      "Analysis of symmetry & chaos in random Josephson Junction Arrays using Model-Fitting.",
-    longDescription:
-      "Josephson Junction Arrays (JJAs) are key components in superconducting quantum computing, where their geometric configuration directly impacts device performance. Instead of relying on invasive experimental methods to generate, evaluate, and refine JJA lattice configurations, advanced model fitting and optimization algorithms can be applied.",
-    technologies: ["C++", "Python", "TensorFlow", "Keras", "NumPy", "Pandas", "SciPy", "Matplotlib"],
-    images: ["/placeholder.svg?height=400&width=600"],
-    projectImage: "/images/portfolio/Quantum/josephson_cover.png",
-    modalImages: [
-      {
-        src: "/images/portfolio/Quantum/joseph.png",
-        caption:
-          "An overview of the Josephson Effect between superconductors, the basis of JJAs.",
-      },
-    ],
-    paragraphs: [
-      "Leveraged parallel processing to generate, validate, and serialize thousands of unique, high-dimensional Josephson Junction Array initial conditions using combinatorial and permutation algorithms.",
-      "Implemented model fitting routines using momentum-based gradient descent with stochastic perturbations and the Adam optimizer, efficiently navigating complex, non-convex loss landscapes.",
-      "Reinforcement learning framework to replace brute-force initial condition generation trained on historical optimization outcomes to propose high-quality starting points in large-scale quantum array simulations.",
-      "Integrated data visualization and analysis tools to compare simulated and experimental results of the symmetry and chaotic behavior of JJAs relevant to quantum computing research."
-    ],
-  },
-  {
-    id: "5",
-    title: "Tensor Crop Tracker: HackIllinois 2025",
-    role: "Lead Programmer",
-    date: "Feb 2025",
-    description:
-      "TCT AI diagnoses plant diseases within seconds and provides eco-friendly cure recommendations.",
-    longDescription:
-      "Farmers worldwide have long relied on pesticides and harmful chemicals to treat their crops, leading to damaging effects on human health and the environment. Many farmers are unaware of natural alternatives or haven't considered sustainable treatment options, often resulting in overuse of chemical treatments.",
-    technologies: ["Flask", "TensorFlow", "SwiftUI", "Hugging Face", "Python", "InceptionV3", "Jupyter Notebook"],
-    images: ["/placeholder.svg?height=400&width=600"],
-    projectImage: "/images/portfolio/TCT/tct.png",
-    modalImages: [
-      {
-        src: "/images/portfolio/TCT/First-TCT.png",
-        caption:
-          "Stage One: Image and User Data Collection and Preprocessing.",
-      },
-      {
-        src: "/images/portfolio/TCT/Second_TCT_4.png",
-        caption:
-          "Stage Two: CNN Model Disease Prediction and Keyword Extraction.",
-      },
-      {
-        src: "/images/portfolio/TCT/Third_TCT_2.png",
-        caption:
-          "Stage Three: Delivering Diagnosis and Treatment Recommendations.",
-      },
-    ],
-    paragraphs: [
-      "Engineered a convolutional neural network using transfer learning with InceptionV3, training on Google Colab with a 10,000+ image dataset of various healthy and unhealthy plants.",
-      "Built a SwiftUI iOS application with camera integration that communicates through a Flask API to orchestrate data flow between CNN classification and a Qwen2.5-VL-72B-Instruct model chatbot for sustainable treatment recommendations.",
-      "Overcame technical challenges including data scalability, mobile optimization, and LLM prompt engineering to deliver comprehensive responses within token limits while maintaining accuracy.",
-    ],
-    links: [{ label: "DevPost", url: "https://devpost.com/software/tensor-crop-tracker-tct-ai" }, { label: "GitHub", url: "https://github.com/prahity/plantDiseaseDetection" }],
-  },
-  {
-    id: "6",
-    title: "Full-Stack Developer Portfolio Platform",
-    role: "Full-Stack Software Engineer",
-    date: "December 2024 - Present",
-    description:
-      "Modern portfolio website with secure document management, analytics, and animations.",
-    longDescription:
-      "A production-ready portfolio website built to showcase technical expertise and promising projects. Features secure resume access, real-time analytics, and interactive UI components with modern web technologies and cloud infrastructure.",
-    technologies: ["Next.js", "TypeScript", "React", "RESTful API", "JWT", "Vercel", "Cloudflare R2"],
-    images: ["/placeholder.svg?height=400&width=600"],
-    projectImage: "/images/portfolio/Portfolio/portfolio-cover.png",
-    modalImages: [
-      {
-        src: "/images/portfolio/Portfolio/secure-access.png",
-        caption:
-          "Secure resume download system with passcode authentication and access tokens."
-      },
-      {
-        src: "/images/portfolio/Portfolio/send-message.png",
-        caption:
-          "Client-side email integration using EmailJS for seamless contact form submissions without backend."
-      },
-      {
-        src: "/images/portfolio/Portfolio/responsive-design.jpeg",
-        caption:
-          "Mobile-first responsive design with smooth animations and modern UI components."
-      }
-    ],
-    paragraphs: [
-      "Developed responsive React components with TypeScript, featuring custom CSS animations, dynamic skill visualization, and interactive project modals optimized for both desktop and mobile experiences.",
-      "Built a secure document management system using Cloudflare R2 object storage with JWT-based authentication access limiting tokens and passcode verification to protect sensitive information.",
-      "Integrated Vercel Analytics for real-time visitor tracking and engagement metrics, providing insights into recruiter interaction patterns and portfolio performance.",
-      "Deployed production-ready application with CI/CD pipeline, custom domain configuration, SSL certificates, and environment-based configuration management for scalable web hosting."
-    ],
-    links: [
-      { label: "Live Site", url: "https://aneeshganti.dev" },
-      { label: "GitHub", url: "https://github.com/aneeshg5/PersonalWebsite" }
-    ]
+function getSkillIcon(name: string): string | null {
+  const normalized = name === 'ReactJS' ? 'React' : name
+  for (const cat of SKILL_CATEGORIES) {
+    const found = cat.skills.find((s) => s.name.toLowerCase() === normalized.toLowerCase())
+    if (found) return found.icon
   }
-]
-
-interface ProjectCardProps {
-  project: Project
-  index: number
-  onClick: (project: Project) => void
+  return EXTRA_ICONS[name] ?? null
 }
 
-function ProjectCard({ project, index, onClick }: ProjectCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const [cardWidth, setCardWidth] = useState(280) // Default card width
+const CATEGORIES = ["All", "ML/AI", "Simulation", "Full-Stack", "Mobile", "Graphics"]
+
+function WebCarousel({ images, captions, onClose }: {
+  images: string[]
+  captions?: string[]
+  onClose: () => void
+}) {
+  const [idx, setIdx] = useState(0)
+  const [dir, setDir] = useState<'left' | 'right'>('right')
+  const n = images.length
+
+  const prev = () => { setDir('left');  setIdx((i) => (i - 1 + n) % n) }
+  const next = () => { setDir('right'); setIdx((i) => (i + 1) % n) }
 
   useEffect(() => {
-    const updateWidth = () => {
-      if (cardRef.current) {
-        const width = cardRef.current.offsetWidth
-        setCardWidth(width)
-      }
-    }
-
-    updateWidth()
-
-    // Debounced resize handler
-    let resizeTimeout: NodeJS.Timeout
-    const handleResize = () => {
-      clearTimeout(resizeTimeout)
-      resizeTimeout = setTimeout(updateWidth, 150)
-    }
-
-    window.addEventListener("resize", handleResize)
-    return () => {
-      window.removeEventListener("resize", handleResize)
-      clearTimeout(resizeTimeout)
-    }
+    const nav = document.querySelector('header') as HTMLElement | null
+    if (nav) nav.style.visibility = 'hidden'
+    return () => { if (nav) nav.style.visibility = '' }
   }, [])
 
-  const visibleCount = useDynamicBadgeCount({
-    technologies: project.technologies,
-    containerWidth: cardWidth - 48, // Subtract card padding (p-4 sm:p-6)
-    minVisible: 2,
-  })
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft')  prev()
+      if (e.key === 'ArrowRight') next()
+      if (e.key === 'Escape')     onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [idx])
 
-  const visibleTechnologies = project.technologies.slice(0, visibleCount)
-  const remainingCount = project.technologies.length - visibleCount
+  const slideClass = dir === 'right' ? 'carousel-slide-right' : 'carousel-slide-left'
 
   return (
-    <Card
-      ref={cardRef}
-      className="bg-slate-800/50 border-slate-700 hover:border-yellow-400/50 transition-all duration-300 transform hover:scale-105 cursor-pointer flex-shrink-0 touch-manipulation"
-      style={{ width: "280px", minWidth: "280px" }}
-      onClick={() => onClick(project)}
+    <div
+      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm"
+      onClick={onClose}
     >
-      <CardContent className="p-4 sm:p-6">
-        {/* Project Image */}
-        <div className="aspect-video bg-gradient-to-br from-slate-700 to-slate-800 rounded-lg mb-3 sm:mb-4 overflow-hidden">
-          <img
-            src={project.projectImage || "/placeholder.svg"}
-            alt={`${project.title} preview`}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-            onError={(e) => {
-              e.currentTarget.style.display = "none"
-              e.currentTarget.nextElementSibling!.style.display = "flex"
+      <div
+        className="flex flex-col items-center gap-5 w-[78%] max-w-[860px]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* MacBook frame — screen auto-sizes to screenshot's natural aspect ratio */}
+        <div className="w-full flex flex-col" style={{ filter: 'drop-shadow(0 20px 48px rgba(0,0,0,0.9))' }}>
+          {/* Lid */}
+          <div
+            className="rounded-t-[7px] overflow-hidden"
+            style={{
+              background: 'linear-gradient(160deg, #222 0%, #181818 40%, #111 100%)',
+              padding: '3px 3px 0 3px',
+              border: '1px solid rgba(255,255,255,0.13)',
+              borderBottom: 'none',
+            }}
+          >
+            <div className="rounded-[2px] overflow-hidden bg-black">
+              {/* Top bezel row with camera — no overlap with screenshot */}
+              <div className="flex items-center justify-center bg-black" style={{ height: '12px' }}>
+                <div className="w-[5px] h-[5px] rounded-full bg-[#1a1a1a] border border-black/60" />
+              </div>
+              {/* Screenshot fills screen at its natural ratio */}
+              <img key={idx} src={images[idx]} alt="" className={`w-full block ${slideClass}`} />
+            </div>
+          </div>
+          {/* Hinge crease */}
+          <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.7) 80%, transparent)' }} />
+          {/* Keyboard base */}
+          <div
+            className="h-[13px] rounded-b-[5px] mx-[-1.5%]"
+            style={{
+              background: 'linear-gradient(180deg, #1e1e1e 0%, #181818 60%, #111 100%)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderTop: 'none',
             }}
           />
-          <div className="hidden w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 items-center justify-center">
-            <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-500">#{index + 1}</span>
-          </div>
+          {/* Foot shadow line */}
+          <div className="h-px mx-[3%]" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.05) 70%, transparent)' }} />
         </div>
 
-        <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 line-clamp-2">{project.title}</h3>
+        {/* Caption */}
+        {captions?.[idx] && (
+          <p key={`cap-${idx}`} className={`text-white/70 text-sm font-inter tracking-wide text-center ${slideClass}`}>
+            {captions[idx]}
+          </p>
+        )}
 
-        <div className="flex items-center space-x-2 text-xs sm:text-sm text-slate-400 mb-2 sm:mb-3">
-          <User className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-          <span className="truncate">{project.role}</span>
-        </div>
-
-        <div className="flex items-center space-x-2 text-xs sm:text-sm text-slate-400 mb-3 sm:mb-4">
-          <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-          <span className="truncate">{project.date}</span>
-        </div>
-
-        <p className="text-slate-300 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-3">{project.description}</p>
-
-        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-          {visibleTechnologies.map((tech) => (
-            <Badge key={tech} variant="secondary" className="bg-yellow-400/20 text-yellow-400 text-xs">
-              {tech}
-            </Badge>
-          ))}
-          {remainingCount > 0 && (
-            <Badge variant="secondary" className="bg-slate-700 text-slate-300 text-xs">
-              +{remainingCount} more
-            </Badge>
-          )}
-        </div>
-
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-slate-900 bg-transparent text-xs sm:text-sm h-8 sm:h-10 touch-manipulation"
-        >
-          View Details
-        </Button>
-      </CardContent>
-    </Card>
-  )
-}
-
-export function Portfolio() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const { isAuthenticated, authenticate } = useAuth()
-  const [showPasscodeModal, setShowPasscodeModal] = useState(false)
-  const [pendingProject, setPendingProject] = useState<Project | null>(null)
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
-
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" })
-    }
-  }
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" })
-    }
-  }
-
-  const handleProjectClick = (project: Project) => {
-    if (!isAuthenticated) {
-      setPendingProject(project)
-      setShowPasscodeModal(true)
-      return
-    }
-    setSelectedProject(project)
-  }
-  const handlePasscodeSuccess = () => {
-    authenticate()
-    if (pendingProject) {
-      setSelectedProject(pendingProject)
-      setPendingProject(null)
-    }
-  }
-
-  return (
-    <div className="space-y-8 sm:space-y-12 px-4">
-      <div className="text-center">
-        <AnimatedLetters
-          text="Portfolio"
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4"
-        />
-        <p className="text-lg sm:text-xl text-slate-400">My recent work and projects!</p>
-      </div>
-
-      <div className="relative">
-        {}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={scrollLeft}
-          className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-600 w-10 h-10 lg:w-12 lg:h-12 rounded-full touch-manipulation"
-        >
-          <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
-        </Button>
-
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={scrollRight}
-          className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-600 w-10 h-10 lg:w-12 lg:h-12 rounded-full touch-manipulation"
-        >
-          <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
-        </Button>
-
-        {/* Scrollable Project Cards */}
-        <div
-          ref={scrollContainerRef}
-          className="flex gap-4 sm:gap-6 md:gap-8 overflow-x-auto scrollbar-hide pb-4 px-2 sm:px-6 md:px-12 py-4"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {projects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={index}
-              onClick={handleProjectClick}
+        {/* Dots */}
+        <div className="flex gap-2">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { setDir(i > idx ? 'right' : 'left'); setIdx(i) }}
+              className={`w-2 h-2 rounded-full transition-all duration-200 ${i === idx ? 'bg-white scale-125' : 'bg-white/30 hover:bg-white/60'}`}
             />
           ))}
         </div>
       </div>
 
-      <ProjectModal project={selectedProject} isOpen={!!selectedProject} onClose={() => setSelectedProject(null)} />
-      <PasscodeModal
-        isOpen={showPasscodeModal}
-        onClose={() => {
-          setShowPasscodeModal(false)
-          setPendingProject(null)
-        }}
-        onSuccess={handlePasscodeSuccess}
-        title="Portfolio Access"
-        description="Please enter the passcode to view project details."
-      />
-      <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
+      {/* Left arrow */}
+      <button
+        className="absolute left-6 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors z-10"
+        onClick={(e) => { e.stopPropagation(); prev() }}
+      >
+        <span className="material-symbols-outlined text-5xl">chevron_left</span>
+      </button>
+
+      {/* Right arrow */}
+      <button
+        className="absolute right-6 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors z-10"
+        onClick={(e) => { e.stopPropagation(); next() }}
+      >
+        <span className="material-symbols-outlined text-5xl">chevron_right</span>
+      </button>
+
+      {/* Close */}
+      <button
+        className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors z-10"
+        onClick={(e) => { e.stopPropagation(); onClose() }}
+      >
+        <span className="material-symbols-outlined text-3xl">close</span>
+      </button>
     </div>
+  )
+}
+
+function MobileCarousel({ images, captions, onClose }: {
+  images: string[]
+  captions?: string[]
+  onClose: () => void
+}) {
+  const [idx, setIdx] = useState(1)
+  const [dir, setDir] = useState<'left' | 'right'>('right')
+  const n = images.length
+
+  const prev = () => { setDir('left');  setIdx((i) => (i - 1 + n) % n) }
+  const next = () => { setDir('right'); setIdx((i) => (i + 1) % n) }
+
+  const leftIdx  = (idx - 1 + n) % n
+  const rightIdx = (idx + 1) % n
+
+  // Hide navbar while open
+  useEffect(() => {
+    const nav = document.querySelector('header') as HTMLElement | null
+    if (nav) nav.style.visibility = 'hidden'
+    return () => { if (nav) nav.style.visibility = '' }
+  }, [])
+
+  // Keyboard navigation
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft')  prev()
+      if (e.key === 'ArrowRight') next()
+      if (e.key === 'Escape')     onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [idx])
+
+  const slideClass = dir === 'right' ? 'carousel-slide-right' : 'carousel-slide-left'
+
+  return (
+    <div
+      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      {/* Phones row */}
+      <div
+        className="flex items-end justify-center gap-6 w-full px-24"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Left phone */}
+        <div
+          onClick={prev}
+          className="h-[50vh] aspect-[9/19.5] rounded-2xl overflow-hidden border border-white/15 opacity-40 hover:opacity-60 shadow-xl transition-all duration-300 cursor-pointer shrink-0 -rotate-3 mb-8"
+        >
+          <img src={images[leftIdx]} alt="" className="w-full h-full object-cover" />
+        </div>
+
+        {/* Center phone + caption */}
+        <div className="flex flex-col items-center gap-4 shrink-0">
+          <div className="h-[70vh] aspect-[9/19.5] rounded-2xl overflow-hidden border-2 border-white/40 shadow-2xl">
+            <img key={idx} src={images[idx]} alt="" className={`w-full h-full object-cover ${slideClass}`} />
+          </div>
+          {captions?.[idx] && (
+            <p key={`cap-${idx}`} className={`text-white/70 text-sm font-inter tracking-wide ${slideClass}`}>
+              {captions[idx]}
+            </p>
+          )}
+          {/* Dots */}
+          <div className="flex gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setDir(i > idx ? 'right' : 'left'); setIdx(i) }}
+                className={`w-2 h-2 rounded-full transition-all duration-200 ${i === idx ? 'bg-white scale-125' : 'bg-white/30 hover:bg-white/60'}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Right phone */}
+        <div
+          onClick={next}
+          className="h-[50vh] aspect-[9/19.5] rounded-2xl overflow-hidden border border-white/15 opacity-40 hover:opacity-60 shadow-xl transition-all duration-300 cursor-pointer shrink-0 rotate-3 mb-8"
+        >
+          <img src={images[rightIdx]} alt="" className="w-full h-full object-cover" />
+        </div>
+      </div>
+
+      {/* Left arrow */}
+      <button
+        className="absolute left-6 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors z-10"
+        onClick={(e) => { e.stopPropagation(); prev() }}
+      >
+        <span className="material-symbols-outlined text-5xl">chevron_left</span>
+      </button>
+
+      {/* Right arrow */}
+      <button
+        className="absolute right-6 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors z-10"
+        onClick={(e) => { e.stopPropagation(); next() }}
+      >
+        <span className="material-symbols-outlined text-5xl">chevron_right</span>
+      </button>
+
+      {/* Close */}
+      <button
+        className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors z-10"
+        onClick={(e) => { e.stopPropagation(); onClose() }}
+      >
+        <span className="material-symbols-outlined text-3xl">close</span>
+      </button>
+    </div>
+  )
+}
+
+const MONTH: Record<string, number> = {
+  Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11,
+  January:0,February:1,March:2,April:3,June:5,July:6,August:7,September:8,October:9,November:10,December:11,
+}
+function parseUpdatedAt(s: string): number {
+  const [mon, yr] = s.trim().split(' ')
+  return parseInt(yr) * 12 + (MONTH[mon] ?? 0)
+}
+
+export function Portfolio() {
+  const [activeCategory, setActiveCategory] = useState("All")
+  const [showAll, setShowAll] = useState(false)
+  const [carousel, setCarousel] = useState<{ images: string[]; captions?: string[]; type: 'mobile' | 'web' } | null>(null)
+
+  const handleCategory = (cat: string) => {
+    setActiveCategory(cat)
+    setShowAll(false)
+  }
+
+  const allFiltered = PROJECTS
+    .filter((p) => !p.isHidden)
+    .filter((p) => activeCategory === "All" || p.categories.includes(activeCategory))
+    .sort((a, b) => parseUpdatedAt(b.updatedAt) - parseUpdatedAt(a.updatedAt))
+  const needsMore = allFiltered.length > 3
+  const filtered = needsMore && !showAll ? allFiltered.slice(0, 3) : allFiltered
+
+  return (
+    <section id="projects" className="w-full">
+      <SectionHeader title="Featured Projects" accent="bg-gradient-to-r from-accent-green to-transparent" />
+
+      <div className="flex flex-wrap gap-4 mb-10">
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => handleCategory(cat)}
+            className={`px-4 py-2 text-xs font-mono uppercase tracking-widest border transition-all rounded ${
+              activeCategory === cat
+                ? "text-accent-green border-accent-green bg-accent-green/10"
+                : "text-white/60 border-white/10 hover:border-accent-green/50 hover:text-white"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto w-full max-w-7xl">
+        {filtered.map((proj) => (
+          <div
+            key={proj.id}
+            className="group relative bg-[#151922] border border-[#1F2633] rounded-lg overflow-hidden flex flex-col transition-all duration-300 hover:border-accent-green/50"
+          >
+            <div className="absolute top-0 left-0 w-1 h-full bg-accent-green"></div>
+            <div className="relative w-full aspect-video bg-[#0B0F1A] border-b border-[#1F2633] overflow-hidden">
+              {/* Category badge — top left */}
+              <div className="absolute top-3 left-3 z-20">
+                <span className="px-2 py-1 rounded bg-accent-green text-[#0B0F1A] text-[10px] font-mono font-bold uppercase tracking-wide">
+                  {proj.categoryTag}
+                </span>
+              </div>
+              {proj.displayType === 'mobile' ? (
+                <>
+                  {/* View Screens button — top right, no background */}
+                  <button
+                    className="absolute top-3 right-3 z-20 text-white/70 hover:text-white transition-colors"
+                    onClick={() => setCarousel({ images: proj.images ?? [proj.image], captions: proj.imageCaptions, type: 'mobile' })}
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>open_in_full</span>
+                  </button>
+                  <div className="flex items-center justify-center gap-3 w-full h-full px-6 transition-transform duration-500 group-hover:scale-105 relative">
+                    {proj.thumbnailBg ? (
+                      <>
+                        <img src={proj.thumbnailBg} alt="" className="absolute inset-0 w-full h-full object-cover scale-110 blur-[2px]" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/55 to-black/75" />
+                      </>
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-b from-[#0d1117] to-[#0B0F1A]" />
+                    )}
+                    {(proj.images ?? [proj.image, proj.image, proj.image]).map((src, i) => (
+                      <div
+                        key={i}
+                        className="h-[90%] aspect-[9/19.5] rounded-[10px] border border-white/20 overflow-hidden bg-[#111] shrink-0 shadow-lg relative z-10"
+                      >
+                        <img src={src} alt="" className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : proj.displayType === 'web' ? (
+                <div className="relative flex items-center justify-center w-full h-full overflow-hidden transition-transform duration-500 group-hover:scale-105">
+                  {proj.images && (
+                    <button
+                      className="absolute top-3 right-3 z-20 text-white/70 hover:text-white transition-colors"
+                      onClick={(e) => { e.stopPropagation(); setCarousel({ images: proj.images!, captions: proj.imageCaptions, type: 'web' }) }}
+                    >
+                      <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>open_in_full</span>
+                    </button>
+                  )}
+                  {/* Background */}
+                  {proj.thumbnailBg ? (
+                    <>
+                      <img src={proj.thumbnailBg} alt="" className={`absolute inset-0 w-full h-full object-cover blur-[3px] scale-110 ${proj.brightThumbnail ? 'brightness-125' : ''}`} />
+                      <div className={`absolute inset-0 bg-gradient-to-b ${proj.brightThumbnail ? 'from-black/35 to-black/60' : 'from-black/65 to-black/85'}`} />
+                    </>
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#080c18] to-[#0B0F1A]" />
+                  )}
+                  {/* MacBook mockup */}
+                  <div className="relative z-10 w-[72%] flex flex-col" style={{ filter: 'drop-shadow(0 12px 28px rgba(0,0,0,0.8))' }}>
+                    {/* Lid — space black with ultra-thin bezel */}
+                    <div
+                      className="rounded-t-[5px] overflow-hidden"
+                      style={{
+                        background: 'linear-gradient(160deg, #222 0%, #181818 40%, #111 100%)',
+                        padding: '3px 3px 0 3px',
+                        border: '1px solid rgba(255,255,255,0.13)',
+                        borderBottom: 'none',
+                      }}
+                    >
+                      {/* Screen — fills nearly the full lid */}
+                      <div className="relative rounded-[2px] overflow-hidden bg-black">
+                        {/* Tiny camera dot */}
+                        <div className="absolute top-[3px] left-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full bg-[#1a1a1a] z-10 border border-black/60" />
+                        <div className="aspect-[16/10]">
+                          <img src={proj.image} alt={proj.title} className="w-full h-full object-cover" />
+                        </div>
+                      </div>
+                    </div>
+                    {/* Hinge crease */}
+                    <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.7) 80%, transparent)' }} />
+                    {/* Keyboard base — slightly wider, tapered */}
+                    <div
+                      className="h-[11px] rounded-b-[4px] mx-[-1.5%]"
+                      style={{
+                        background: 'linear-gradient(180deg, #1e1e1e 0%, #181818 60%, #111 100%)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderTop: 'none',
+                      }}
+                    />
+                    {/* Foot shadow */}
+                    <div className="h-px mx-[3%]" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.05) 70%, transparent)' }} />
+                  </div>
+                </div>
+              ) : (
+                <img
+                  alt={proj.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  src={proj.image}
+                />
+              )}
+            </div>
+            <div className="p-6 flex flex-col flex-1">
+              <h3 className="text-xl font-bold text-white mb-2 font-display group-hover:text-accent-green transition-colors">
+                {proj.title}
+              </h3>
+              <p className="text-white/60 text-sm leading-relaxed mb-4 font-inter">{proj.description}</p>
+              <ul className="space-y-2 mb-6">
+                {proj.highlights.map((h, idx) => (
+                  <li
+                    key={idx}
+                    className="relative pl-4 text-xs text-white/70 font-inter leading-relaxed before:absolute before:left-0 before:top-[1px] before:text-accent-green before:content-['▸']"
+                    dangerouslySetInnerHTML={{
+                      __html: h.replace(
+                        /\*\*(.*?)\*\*/g,
+                        '<span class="text-accent-green font-bold">$1</span>'
+                      ),
+                    }}
+                  />
+                ))}
+              </ul>
+              <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-6 mt-auto">
+                {proj.tech.map((t) => {
+                  const icon = getSkillIcon(t)
+                  return (
+                    <div key={t} className="flex items-center gap-1 shrink-0">
+                      {icon && <img src={icon} alt="" className="w-[14px] h-[14px] object-contain" />}
+                      <span className="text-white/60 text-[11px] font-medium font-inter whitespace-nowrap">{t}</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="flex items-center gap-6 pt-4 border-t border-white/5">
+                {proj.links ? proj.links.map((link) => (
+                  <a
+                    key={link.label}
+                    className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white/70 hover:text-accent-green transition-colors"
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>{link.icon}</span>
+                    {link.label}{" "}
+                    <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_outward</span>
+                  </a>
+                )) : (
+                  <>
+                    <a
+                      className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white/70 hover:text-accent-green transition-colors"
+                      href={proj.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      GitHub{" "}
+                      <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
+                    </a>
+                    <a
+                      className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white/70 hover:text-accent-green transition-colors"
+                      href={proj.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Live Demo{" "}
+                      <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
+                    </a>
+                  </>
+                )}
+              </div>
+              <p className="font-inter text-[11px] text-[#8B949E] text-right mt-3">
+                Last Updated: {proj.updatedAt}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {needsMore && (
+        <div className="flex justify-center mt-12 w-full">
+          <button
+            onClick={() => setShowAll((v) => !v)}
+            className="px-8 py-3 rounded border border-accent-green bg-transparent text-accent-green text-sm font-bold uppercase tracking-widest hover:bg-accent-green/10 transition-all"
+          >
+            {showAll ? "Show Less" : "See More Projects"}
+          </button>
+        </div>
+      )}
+
+      {carousel && carousel.type === 'mobile' && (
+        <MobileCarousel images={carousel.images} captions={carousel.captions} onClose={() => setCarousel(null)} />
+      )}
+      {carousel && carousel.type === 'web' && (
+        <WebCarousel images={carousel.images} captions={carousel.captions} onClose={() => setCarousel(null)} />
+      )}
+    </section>
   )
 }

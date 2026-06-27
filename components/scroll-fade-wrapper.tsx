@@ -1,47 +1,38 @@
 "use client"
 
 import type React from "react"
-
 import { useEffect, useRef, useState } from "react"
 
-interface ScrollFadeWrapperProps {
+interface ScrollRevealProps {
   children: React.ReactNode
-  className?: string
-  threshold?: number
+  delay?: number
 }
 
-export function ScrollFadeWrapper({ children, className = "", threshold = 0.1 }: ScrollFadeWrapperProps) {
+export function ScrollFadeWrapper({ children, delay = 0 }: ScrollRevealProps) {
   const [isVisible, setIsVisible] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting)
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
       },
-      {
-        threshold,
-        rootMargin: "50px 0px -50px 0px",
-      },
+      { threshold: 0.1, rootMargin: '50px' }
     )
-
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current)
-      }
-    }
-  }, [threshold])
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      } ${className}`}
+      className={`transition-opacity duration-700 ease-out ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+      style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>

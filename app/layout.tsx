@@ -1,17 +1,51 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Space_Grotesk, Space_Mono } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { Analytics } from "@vercel/analytics/next"
 
-const inter = Inter({ subsets: ["latin"] })
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+})
+
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
-  title: "Aneesh Ganti - Full-Stack Developer",
-  description: "Full-Stack Developer / AI + ML Enthusiast / Data Analyst",
-  keywords: ["portfolio", "developer", "AI", "ML", "full-stack"],
-    generator: 'v0.dev'
+  title: "Aneesh Ganti · Software Engineer",
+  description: "CS & Math student at UIUC building full-stack systems, ML pipelines, and embedded security research. Open to Summer 2027 SWE and ML internships.",
+  keywords: ["Aneesh Ganti", "software engineer", "UIUC", "full-stack developer", "machine learning", "AI", "portfolio", "internship"],
+  metadataBase: new URL("https://www.aneeshganti.dev"),
+  alternates: {
+    canonical: "https://www.aneeshganti.dev",
+  },
+  openGraph: {
+    title: "Aneesh Ganti · Software Engineer",
+    description: "CS & Math @ UIUC. Building full-stack systems, ML pipelines, and embedded security research.",
+    url: "https://www.aneeshganti.dev",
+    siteName: "Aneesh Ganti",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "Aneesh Ganti · Software Engineer",
+    description: "CS & Math @ UIUC. Building full-stack systems, ML pipelines, and embedded security research.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 }
 
 export default function RootLayout({
@@ -20,12 +54,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
-          <Analytics />
-        </ThemeProvider>
+    <html lang="en" className="dark">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className={`${spaceGrotesk.variable} ${spaceMono.variable} font-display`}>
+        {children}
+        <Analytics />
       </body>
     </html>
   )

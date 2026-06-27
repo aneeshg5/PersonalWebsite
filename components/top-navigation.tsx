@@ -1,163 +1,81 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Home, User, Briefcase, Code, Mail, Github, Linkedin, Instagram, Menu } from "lucide-react"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-const navigationItems = [
-  { id: "home", label: "Home", icon: Home },
-  { id: "about", label: "About", icon: User },
-  { id: "portfolio", label: "Portfolio", icon: Briefcase },
-  { id: "skills", label: "Skills", icon: Code },
-  { id: "contact", label: "Contact", icon: Mail },
-]
-
-const socialLinks = [
-  { icon: Linkedin, href: "https://www.linkedin.com/in/aneesh-ganti-ba606326b/", label: "LinkedIn" },
-  { icon: Github, href: "https://github.com/aneeshg5", label: "GitHub" },
-  { icon: Instagram, href: "https://www.instagram.com/practicegod13/?hl=en", label: "Instagram" },
+const NAV_ITEMS = [
+  { label: 'Home',       color: '#06c0f9' },
+  { label: 'Experience', color: '#00C9FF' },
+  { label: 'Research',   color: '#A78BFA' },
+  { label: 'Projects',   color: '#10B981' },
+  { label: 'Skills',     color: '#F59E0B' },
+  { label: 'Education',  color: '#FBBF24' },
+  { label: 'Leadership', color: '#FB7185' },
+  { label: 'Contact',    color: '#ffffff' },
 ]
 
 export function TopNavigation() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState("home")
+  const [hovered, setHovered] = useState<string | null>(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-
-      // Update active section based on scroll position with better detection
-      const sections = navigationItems.map((item) => item.id)
-      let currentSection = "home"
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          const elementTop = rect.top + window.pageYOffset
-          const elementHeight = rect.height
-          const scrollPosition = window.pageYOffset + 150
-
-          if (scrollPosition >= elementTop && scrollPosition < elementTop + elementHeight) {
-            currentSection = section
-            break
-          }
-        }
-      }
-
-      setActiveSection(currentSection)
-    }
-
-    handleScroll() // Call once on mount
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    const handleScroll = () => setIsScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 100
-      window.scrollTo({ top: offsetTop, behavior: "smooth" })
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 100
+      window.scrollTo({ top: y, behavior: 'smooth' })
     }
   }
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50" : "bg-transparent"
+    <header
+      className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 md:px-20 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-[#0B0F1A]/80 backdrop-blur-md border-b border-white/5 py-4 shadow-2xl'
+          : 'bg-transparent py-8'
       }`}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 flex items-center justify-center">
-              <span className="text-slate-900 font-bold text-lg">AG</span>
-            </div>
-            <div className="hidden md:block">
-              <h2 className="font-semibold text-white">Aneesh Ganti</h2>
-              <p className="text-sm text-slate-400">CS & Math @ UIUC</p>
-            </div>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navigationItems.map((item) => (
-              <Button
-                key={item.id}
-                variant="ghost"
-                onClick={() => scrollToSection(item.id)}
-                className={`text-slate-300 hover:text-yellow-400 transition-colors ${
-                  activeSection === item.id ? "text-yellow-400" : ""
-                }`}
-              >
-                <item.icon className="w-4 h-4 mr-2" />
-                {item.label}
-              </Button>
-            ))}
-          </div>
-
-          {/* Social Links */}
-          <div className="hidden md:flex items-center space-x-4">
-            {socialLinks.map((social) => (
-              <Button
-                key={social.label}
-                variant="ghost"
-                size="icon"
-                asChild
-                className="text-slate-400 hover:text-yellow-400"
-              >
-                <a href={social.href} target="_blank" rel="noopener noreferrer">
-                  <social.icon className="w-5 h-5" />
-                </a>
-              </Button>
-            ))}
-          </div>
-
-          {/* Mobile Menu */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden text-white">
-                <Menu className="w-6 h-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="bg-slate-900 border-slate-700">
-              <div className="flex flex-col space-y-6 mt-8">
-                {navigationItems.map((item) => (
-                  <Button
-                    key={item.id}
-                    variant="ghost"
-                    onClick={() => scrollToSection(item.id)}
-                    className="justify-start text-slate-300 hover:text-yellow-400"
-                  >
-                    <item.icon className="w-5 h-5 mr-3" />
-                    {item.label}
-                  </Button>
-                ))}
-
-                <div className="pt-6 border-t border-slate-700">
-                  <div className="flex justify-center space-x-4">
-                    {socialLinks.map((social) => (
-                      <Button
-                        key={social.label}
-                        variant="ghost"
-                        size="icon"
-                        asChild
-                        className="text-slate-400 hover:text-yellow-400"
-                      >
-                        <a href={social.href} target="_blank" rel="noopener noreferrer">
-                          <social.icon className="w-5 h-5" />
-                        </a>
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+      <div
+        className="h-14 w-14 rounded-full border-2 border-white/20 overflow-hidden cursor-pointer hover:border-primary/60 transition-all hover:shadow-[0_0_12px_rgba(6,192,249,0.4)]"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
+        <img
+          src="/profile.jpg"
+          alt="Aneesh Ganti"
+          className="w-full h-full object-cover object-top"
+          onError={(e) => {
+            const t = e.currentTarget
+            t.style.display = 'none'
+            t.parentElement!.classList.add('bg-primary/20', 'flex', 'items-center', 'justify-center')
+            t.parentElement!.innerHTML = '<span class="text-primary font-bold text-sm">AG</span>'
+          }}
+        />
       </div>
-    </nav>
+
+      <nav className="hidden md:flex items-center gap-10">
+        {NAV_ITEMS.map((item) => (
+          <a
+            key={item.label}
+            className="text-sm font-medium uppercase tracking-widest cursor-pointer transform duration-200 hover:scale-105 font-display transition-colors"
+            style={{
+              color: hovered === item.label ? item.color : 'rgba(255,255,255,0.7)',
+            }}
+            href={`#${item.label.toLowerCase()}`}
+            onClick={(e) => {
+              e.preventDefault()
+              scrollTo(item.label.toLowerCase())
+            }}
+            onMouseEnter={() => setHovered(item.label)}
+            onMouseLeave={() => setHovered(null)}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </header>
   )
 }
