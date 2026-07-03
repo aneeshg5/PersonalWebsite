@@ -269,7 +269,7 @@ export const PROJECTS: ProjectItem[] = [
       { label: 'GitHub', icon: 'code', url: 'https://github.com/zengm-games/zengm' },
       { label: 'Live Site', icon: 'open_in_new', url: 'https://play.basketball-gm.com' },
     ],
-    updatedAt: 'June 2026'
+    updatedAt: 'July 2026'
   },
   {
     id: 'orbitforge',
@@ -293,7 +293,7 @@ export const PROJECTS: ProjectItem[] = [
       { label: 'GitHub', icon: 'code', url: 'https://github.com/aneeshg5/OrbitForge' },
       { label: 'Live Site', icon: 'open_in_new', url: 'https://orbitforge.pages.dev' },
     ],
-    updatedAt: 'June 2026'
+    updatedAt: 'July 2026'
   },
   {
     id: 'p5',
