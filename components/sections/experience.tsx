@@ -13,6 +13,11 @@ const EXTRA_ICONS: Record<string, string> = {
   'Playwright': 'https://api.iconify.design/logos:playwright.svg',
   'SocketCAN':  'https://api.iconify.design/mdi:network.svg?color=%2394A3B8',
   'SavvyCAN':   'https://api.iconify.design/mdi:steering.svg?color=%23F59E0B',
+  'GPT':        'https://cdn.simpleicons.org/openai/ffffff',
+  'DeepSeek':   'https://cdn.simpleicons.org/deepseek/4D6BFE',
+  'Wiring Harness': 'https://api.iconify.design/mdi:cable-data.svg?color=%2394A3B8',
+  'Claude':     'https://cdn.simpleicons.org/anthropic/D97757',
+  'Raspberry Pi': 'https://cdn.simpleicons.org/raspberrypi/A22846',
 }
 
 function getSkillIcon(skillName: string): string | null {

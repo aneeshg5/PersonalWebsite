@@ -96,15 +96,15 @@ export const EXPERIENCES: ExperienceItem[] = [
           'Built **Workbox & IndexedDB** offline cache for on-water trials that auto-syncs records to **Blob & PostgreSQL** on **Azure**.',
           'Ported Python\'s cantools library to **TypeScript** to replace vSignalyzer and cut analysis from **~30s** to **<5s** in-browser.',
         ],
-        tech: ['TypeScript', 'React', 'PostgreSQL', 'Azure', 'Cloudflare', 'Hono', 'Workbox', 'IndexedDB']
+        tech: ['TypeScript', 'React', 'PostgreSQL', 'Azure', 'Cloudflare', 'Hono', 'Workbox', 'IndexedDB', 'Raspberry Pi']
       },
       {
         title: 'Automotive CAN Bus Security Research',
         bullets: [
-          'Designed **AI cryptanalysis pipeline** with **Claude Code** to assess Mercury\'s new CAN-encrypted helm vulnerability.',
-          'Orchestrated test harness to decode **19 CAN bit patterns** and hijack **steering, throttle & gear** with natural language.',
+          'Evaluated **frontier AI models** on decoding **70+** encrypted CAN signals for cryptanalysis research on boat vulnerability.',
+          'Designed **wired CAN harnesses** to intercept, inject, and block messages that hijack **helm, throttle and fuel** systems.',
         ],
-        tech: ['Python', 'C++', 'SocketCAN', 'Linux', 'SavvyCAN', 'Claude Code']
+        tech: ['Python', 'SocketCAN', 'Linux', 'WebSockets', 'Wiring Harness', 'Claude', 'Gemini', 'OpenAI', 'DeepSeek']
       }
     ]
   },
