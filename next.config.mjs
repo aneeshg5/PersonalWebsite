@@ -11,7 +11,7 @@ const nextConfig = {
       {
         source: '/resume.pdf',
         headers: [
-          { key: 'Content-Disposition', value: 'attachment; filename="Aneesh_Ganti_2027_Resume.pdf"' },
+          { key: 'Content-Disposition', value: 'attachment; filename="Aneesh_Ganti_2028_Resume.pdf"' },
         ],
       },
       {
