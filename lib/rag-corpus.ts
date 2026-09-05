@@ -21,6 +21,7 @@ const CATEGORY_MAP: Record<string, string> = {
   'Cryogenic_Flow':        'project',
   'ZenGM_Sports':          'project',
   'OrbitForge':            'project',
+  'ForeTrack4D':           'project',
   'about':                 'about',
 }
 

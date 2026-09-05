@@ -30,6 +30,8 @@ const EXTRA_ICONS: Record<string, string> = {
   'Eigen':          'https://api.iconify.design/mdi:matrix.svg?color=%2310B981',
   'Chart.js':       'https://cdn.simpleicons.org/chartdotjs/FF6384',
   'Cloudflare':     'https://cdn.simpleicons.org/cloudflare/F38020',
+  'SAM 2':          'https://api.iconify.design/simple-icons:meta.svg?color=%230467DF',
+  'trimesh':        'https://api.iconify.design/mdi:cube-outline.svg?color=%2334D399',
 }
 
 function getSkillIcon(name: string): string | null {

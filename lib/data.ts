@@ -56,10 +56,10 @@ export interface SkillCategory {
 export interface EducationInfo {
   university: string
   degree: string
-  specialization: string
+  specialization?: string
   period: string
-  gpa: string
-  courses: { id: string; name: string }[]
+  gpa?: string
+  courses?: { id: string; name: string }[]
   logo: string
 }
 
@@ -179,6 +179,29 @@ export const RESEARCH_PROJECTS: ResearchItem[] = [
 
 export const PROJECTS: ProjectItem[] = [
   {
+    id: 'foretrack4d',
+    title: 'ForeTrack4D',
+    categories: ['ML/AI', 'Computer Vision'],
+    categoryTag: 'Computer Vision / ML',
+    displayType: 'web',
+    image: 'https://raw.githubusercontent.com/aneeshg5/ForeTrack4D/main/assets/dexycb_gelatin_box.gif',
+    thumbnailBg: '/screenshots/foretrack4d-bg.jpg',
+    brightThumbnail: true,
+    description: 'Motion diffusion model that forecasts a hand-held object\'s 3D path from one photo for robot planning.',
+    highlights: [
+      'Built **ViT-conditioned diffusion** to forecast object motion.',
+      'Auto-labeled **200+ training clips** with **SAM 2** & **TAPIP3D**.',
+      'Tracks 3D trajectory within **14cm** over 128 frame horizon.',
+    ],
+    tech: ['Python', 'PyTorch', 'CUDA', 'SAM 2', 'OpenCV', 'NumPy', 'trimesh', 'Flask'],
+    githubUrl: 'https://github.com/aneeshg5/ForeTrack4D',
+    demoUrl: '#',
+    links: [
+      { label: 'GitHub', icon: 'code', url: 'https://github.com/aneeshg5/ForeTrack4D' },
+    ],
+    updatedAt: 'Aug 2026',
+  },
+  {
     id: 'leafscan',
     title: 'LeafScan AI',
     categories: ['Mobile', 'ML/AI'],
@@ -242,7 +265,7 @@ export const PROJECTS: ProjectItem[] = [
     categories: ['Full-Stack', 'Simulation'],
     categoryTag: 'Full-Stack / Sim',
     displayType: 'web',
-    image: '/screenshots/basketball-gm.png',
+    image: '/screenshots/basketball-gm.gif',
     images: [
       '/screenshots/bgm-ss-home.png',
       '/screenshots/bgm-ss-dashboard.png',
@@ -277,7 +300,7 @@ export const PROJECTS: ProjectItem[] = [
     categories: ['Simulation', 'Graphics', 'Full-Stack'],
     categoryTag: 'Aerospace / Sim',
     displayType: 'web',
-    image: '/screenshots/orbitforge-main.png',
+    image: 'https://raw.githubusercontent.com/aneeshg5/OrbitForge/main/docs/demo.gif',
     thumbnailBg: '/screenshots/orbitforge-bg.png',
     brightThumbnail: true,
     description: 'Browser-based orbit simulator with 150+ users that compares 3 Kalman filters on real satellite data.',
@@ -412,25 +435,35 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
 ]
 
-export const EDUCATION: EducationInfo = {
-  university: 'University of Illinois Urbana-Champaign',
-  degree: 'B.S. Mathematics & Computer Science',
-  specialization: 'Specializing in Agentic AI Engineering, Autonomy, Perception, & Distributed Systems',
-  period: 'Expected: May 2027',
-  gpa: '3.70 / 4.00',
-  courses: [
-    { id: 'CS 225', name: 'Data Structures' },
-    { id: 'CS 374', name: 'Algorithms' },
-    { id: 'CS 425', name: 'Distributed Systems' },
-    { id: 'CS 498', name: 'Cloud Computing' },
-    { id: 'CS 341', name: 'System Programming'},
-    { id: 'CS 411', name: 'Database Systems' },
-    { id: 'CS 441', name: 'Machine Learning' },
-    { id: 'CS 447', name: 'Natural Language Processing' },
-    { id: 'CS 444', name: 'Deep Learning for Computer Vision' },
-  ],
-  logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU7iClDs1G6d4rEth_g33G0-rbL9f05PvlMw&s'
-}
+export const EDUCATION: EducationInfo[] = [
+  {
+    university: 'University of Illinois Urbana-Champaign',
+    degree: 'Incoming Master of Computer Science',
+    specialization: "Computer Vision Research Under Prof. Saurabh Gupta's AI Lab",
+    period: 'Expected: Dec 2028',
+    gpa: '3.70 / 4.00',
+    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU7iClDs1G6d4rEth_g33G0-rbL9f05PvlMw&s'
+  },
+  {
+    university: 'University of Illinois Urbana-Champaign',
+    degree: 'B.S. Mathematics & Computer Science',
+    specialization: 'Specializing in Agentic AI Engineering, Autonomy, Perception, & Distributed Systems',
+    period: 'Expected: May 2027',
+    gpa: '3.70 / 4.00',
+    courses: [
+      { id: 'CS 225', name: 'Data Structures' },
+      { id: 'CS 374', name: 'Algorithms' },
+      { id: 'CS 425', name: 'Distributed Systems' },
+      { id: 'CS 498', name: 'Cloud Computing' },
+      { id: 'CS 341', name: 'System Programming'},
+      { id: 'CS 411', name: 'Database Systems' },
+      { id: 'CS 441', name: 'Machine Learning' },
+      { id: 'CS 447', name: 'Natural Language Processing' },
+      { id: 'CS 444', name: 'Deep Learning for Computer Vision' },
+    ],
+    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU7iClDs1G6d4rEth_g33G0-rbL9f05PvlMw&s'
+  },
+]
 
 export const LEADERSHIP: LeadershipItem[] = [
   {

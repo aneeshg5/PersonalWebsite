@@ -70,6 +70,7 @@ const DIR_TO_SOURCE: Record<string, string> = {
   Cryogenic_Flow:        'Cryogenic_Flow',
   ZenGM_Sports:          'ZenGM_Sports',
   OrbitForge:            'OrbitForge',
+  ForeTrack4D:           'ForeTrack4D',
 }
 
 function retrieveTopK(queryEmbedding: number[], k = 5, sourcePrefix?: string): CorpusEntry[] {
