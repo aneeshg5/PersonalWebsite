@@ -5,7 +5,7 @@ import { SectionHeader } from "@/components/section-header"
 import { RESEARCH_PROJECTS, SKILL_CATEGORIES } from "@/lib/data"
 
 const EXTRA_ICONS: Record<string, string> = {
-  'Optuna': 'https://api.iconify.design/simple-icons:optuna.svg?color=%23597BC0',
+  'Optuna': 'https://api.iconify.design/simple-icons/optuna.svg?color=%23597BC0',
 }
 
 function getSkillIcon(name: string): string | null {
