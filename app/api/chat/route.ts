@@ -71,6 +71,7 @@ const DIR_TO_SOURCE: Record<string, string> = {
   ZenGM_Sports:          'ZenGM_Sports',
   OrbitForge:            'OrbitForge',
   ForeTrack4D:           'ForeTrack4D',
+  Surge_Shift:           'Surge_Shift',
 }
 
 function retrieveTopK(queryEmbedding: number[], k = 5, sourcePrefix?: string): CorpusEntry[] {

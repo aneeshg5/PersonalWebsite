@@ -32,6 +32,11 @@ const EXTRA_ICONS: Record<string, string> = {
   'Cloudflare':     'https://cdn.simpleicons.org/cloudflare/F38020',
   'SAM 2':          'https://api.iconify.design/simple-icons/meta.svg?color=%230467DF',
   'trimesh':        'https://api.iconify.design/mdi/cube-outline.svg?color=%2334D399',
+  'C3 Code':        'https://api.iconify.design/mdi/bus-multiple.svg?color=%2338BDF8',
+  'Vite':           'https://cdn.simpleicons.org/vite/646CFF',
+  'Tailwind CSS':   'https://cdn.simpleicons.org/tailwindcss/06B6D4',
+  'Leaflet':        'https://cdn.simpleicons.org/leaflet/199900',
+  'OpenStreetMap':  'https://cdn.simpleicons.org/openstreetmap/7EBC6F',
 }
 
 function getSkillIcon(name: string): string | null {
@@ -331,6 +336,17 @@ export function Portfolio() {
           >
             <div className="absolute top-0 left-0 w-1 h-full bg-accent-green"></div>
             <div className="relative w-full aspect-video bg-[#0B0F1A] border-b border-[#1F2633] overflow-hidden">
+              {/* Award ribbon — diagonal band across the top-right corner, clipped by the media frame */}
+              {proj.award && (
+                <div className="absolute inset-0 overflow-hidden z-30 pointer-events-none">
+                  <div
+                    className="absolute top-[50px] right-[50px] w-[320px] translate-x-1/2 -translate-y-1/2 rotate-45 flex items-center justify-center gap-1.5 py-[6px] bg-gradient-to-b from-[#FFC933] to-[#FFA600] text-black text-[11px] font-mono font-extrabold uppercase tracking-[0.12em] shadow-[0_2px_6px_rgba(0,0,0,0.5)]"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: '15px', fontVariationSettings: "'FILL' 1" }}>emoji_events</span>
+                    {proj.award}
+                  </div>
+                </div>
+              )}
               {/* Category badge — top left */}
               <div className="absolute top-3 left-3 z-20">
                 <span className="px-2 py-1 rounded bg-accent-green text-[#0B0F1A] text-[10px] font-mono font-bold uppercase tracking-wide">
@@ -369,7 +385,7 @@ export function Portfolio() {
                 <div className="relative flex items-center justify-center w-full h-full overflow-hidden transition-transform duration-500 group-hover:scale-105">
                   {proj.images && (
                     <button
-                      className="absolute top-3 right-3 z-20 text-white/70 hover:text-white transition-colors"
+                      className="absolute top-3 right-3 z-40 text-white/70 hover:text-white transition-colors"
                       onClick={(e) => { e.stopPropagation(); setCarousel({ images: proj.images!, captions: proj.imageCaptions, type: 'web' }) }}
                     >
                       <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>open_in_full</span>

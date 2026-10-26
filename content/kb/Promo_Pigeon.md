@@ -1,12 +1,12 @@
-# Promo Pigeon — Founding Engineer
+# PromoPigeon LLC — Founding Engineer
 
 **Role:** Founding Engineer
-**Company:** Promo Pigeon · iVenture Cohort 12
+**Company:** PromoPigeon LLC · iVenture Cohort 12
 **Period:** February 2026 – Present
 
 ## Role Summary
 
-Founding engineer at Promo Pigeon, an automated promotional product fulfillment platform. Built an agentic AI workflow that processes incoming orders via email, generates product mockups, and automates the full fulfillment pipeline — reducing turnaround from 2 days to minutes.
+Founding engineer at PromoPigeon LLC, an automated promotional product fulfillment platform. Built an agentic AI workflow that processes incoming orders via email, generates product mockups, and automates the full fulfillment pipeline — reducing turnaround from 2 days to minutes.
 
 ## Proofing & Fulfillment AI Agent
 

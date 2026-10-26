@@ -46,6 +46,7 @@ export interface ProjectItem {
   links?: { label: string; icon: string; url: string }[]
   updatedAt: string
   isHidden?: boolean
+  award?: string
 }
 
 export interface SkillCategory {
@@ -112,7 +113,7 @@ export const EXPERIENCES: ExperienceItem[] = [
     id: 'exp3',
     period: 'Feb 2026 - Present',
     role: 'Founding Engineer',
-    company: 'Promo Pigeon · iVenture Cohort 12',
+    company: 'PromoPigeon LLC · iVenture Cohort 12',
     logo: '/promo-pigeon.jpeg',
     icon: 'send',
     project: 'Proofing & Fulfillment AI Agent',
@@ -178,6 +179,48 @@ export const RESEARCH_PROJECTS: ResearchItem[] = [
 ]
 
 export const PROJECTS: ProjectItem[] = [
+  {
+    id: 'surge-shift',
+    title: 'Surge Shift',
+    categories: ['Full-Stack', 'Simulation'],
+    categoryTag: 'Full-Stack / Optimization',
+    displayType: 'web',
+    award: '1st Place',
+    thumbnailBg: '/screenshots/surge-shift-bg.jpg',
+    brightThumbnail: true,
+    image: '/screenshots/c3-surge-planning-main.png',
+    images: [
+      '/screenshots/c3-surge-planning-main.png',
+      '/screenshots/c3-campus-events.png',
+      '/screenshots/c3-resolve-plan.png',
+      '/screenshots/c3-transit-routes.png',
+      '/screenshots/c3-surge-01-setup.png',
+      '/screenshots/c3-surge-03-results-full.png',
+      '/screenshots/c3-surge-04-opportunities.png',
+    ],
+    imageCaptions: [
+      'Animated route map with optimization metrics',
+      'Campus events feed',
+      'Resolve and plan transit routes',
+      'Proposed transit routes',
+      'Surge Planner scenario setup',
+      'Simulation results',
+      'Optimization opportunities',
+    ],
+    description: 'Plans extra campus bus routes for event demand spikes that scheduled MTD service misses.',
+    highlights: [
+      'Won **1st place** at C3 AI\'s **C3 Code** Hackathon.',
+      'Schedules **extra buses** for **campus event** demand.',
+      'Animates routes on a **Leaflet** map with real stop data.',
+    ],
+    tech: ['C3 Code', 'TypeScript', 'React', 'Vite', 'Tailwind CSS', 'Leaflet', 'OpenStreetMap'],
+    githubUrl: 'https://github.com/prahity/c3busapp',
+    demoUrl: '#',
+    links: [
+      { label: 'GitHub', icon: 'code', url: 'https://github.com/prahity/c3busapp' },
+    ],
+    updatedAt: 'Oct 2026',
+  },
   {
     id: 'foretrack4d',
     title: 'ForeTrack4D',

@@ -22,6 +22,7 @@ const CATEGORY_MAP: Record<string, string> = {
   'ZenGM_Sports':          'project',
   'OrbitForge':            'project',
   'ForeTrack4D':           'project',
+  'Surge_Shift':           'project',
   'about':                 'about',
 }
 

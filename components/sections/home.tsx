@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { HeroButton } from "@/components/hero-button"
 
-const ROLES = ["Software Engineer", " MLE @ Brunswick", "CV Researcher @ UIUC", "Building Promo Pigeon", "2025 UIUC HuLC Finalist"]
+const ROLES = ["Software Engineer", " MLE @ Brunswick", "CV Researcher @ UIUC", "Building PromoPigeon LLC", "2025 UIUC HuLC Finalist"]
 
 function useTypewriter(words: string[], typeSpeed = 75, deleteSpeed = 35, pauseDuration = 1800) {
   const [text, setText] = useState("")
