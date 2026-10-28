@@ -84,7 +84,7 @@ export const EXPERIENCES: ExperienceItem[] = [
       {
         title: 'Propeller Selection Tool',
         bullets: [
-          'Engineered physics-informed recommendation tool to serve **400+** boat users and save **$25,000** in dealer test costs.',
+          'Engineered physics-informed recommendation tool to serve **400+** boat users and save **$65,000+** in dealer test costs.',
           'Trained **ridge regression** models on Savitsky hydrodynamics to predict top speed & fuel economy on **ONNX** runtime.',
           'Deployed **GPT-4o** agent to web-search and enrich **3,000+** boat records missing beam, weight & length for training.',
         ],
@@ -95,7 +95,7 @@ export const EXPERIENCES: ExperienceItem[] = [
         bullets: [
           'Developed **progressive web app** to centralize Mercury Marine\'s raw CAN test data and eliminate manual file sharing.',
           'Built **Workbox & IndexedDB** offline cache for on-water trials that auto-syncs records to **Blob & PostgreSQL** on **Azure**.',
-          'Ported Python\'s cantools library to **TypeScript** to replace vSignalyzer and cut analysis from **~30s** to **<5s** in-browser.',
+          'Ported Python\'s cantools library to **TypeScript** to replace vSignalyzer and cut analysis from **3 hrs** to **9s** in-browser.',
         ],
         tech: ['TypeScript', 'React', 'PostgreSQL', 'Azure', 'Cloudflare', 'Hono', 'Workbox', 'IndexedDB', 'Raspberry Pi']
       },
@@ -103,7 +103,7 @@ export const EXPERIENCES: ExperienceItem[] = [
         title: 'Automotive CAN Bus Security Research',
         bullets: [
           'Evaluated **frontier AI models** on decoding **70+** encrypted CAN signals for cryptanalysis research on boat vulnerability.',
-          'Designed **wired CAN harnesses** to intercept, inject, and block messages that hijack **helm, throttle and fuel** systems.',
+          'Designed **wired CAN harnesses** to intercept, block, and inject messages that hijack **helm, throttle, and fuel** systems.',
         ],
         tech: ['Python', 'SocketCAN', 'Linux', 'WebSockets', 'Wiring Harness', 'Claude', 'Gemini', 'OpenAI', 'DeepSeek']
       }
@@ -118,9 +118,9 @@ export const EXPERIENCES: ExperienceItem[] = [
     icon: 'send',
     project: 'Proofing & Fulfillment AI Agent',
     bullets: [
-      'Launched **agentic workflow** to generate promo mockups from emails and reduce turnaround from **2 days** to minutes.',
+      'Launched **agentic workflow** to generate promo mockups from emails and reduce turnaround from **2 days** to **<60s**.',
       'Architected node-based PDF engine as a **Dockerized** plugin with **AWS ECR** to compose layered artwork for AI agents.',
-      'Built **IMAP IDLE** ingestor with exponential backoff and **PostgreSQL** state machine to reliably process **2,500+** orders.',
+      'Built **IMAP IDLE** ingestor with exponential backoff and **PostgreSQL** state machine to handle **2,500+ daily orders**.',
     ],
     tech: ['Python', 'Gemini', 'AWS', 'Docker', 'FastAPI', 'React', 'spaCy', 'PyMuPDF']
   },
@@ -133,7 +133,7 @@ export const EXPERIENCES: ExperienceItem[] = [
     icon: 'inventory_2',
     subProjects: [
       {
-        title: 'Personalized Outreach Tool',
+        title: 'Personalized Outreach Platform',
         bullets: [
           'Designed **Python + AWS** outreach tool to ship personalized samples to **700+** businesses with a **14%** conversion rate.',
           'Shipped **React + FastAPI** platform with **PostgreSQL** for order fulfillment and brand assets for **90,000+** client leads.',
@@ -141,7 +141,7 @@ export const EXPERIENCES: ExperienceItem[] = [
         tech: ['AWS', 'React', 'FastAPI', 'Python', 'PostgreSQL', 'Playwright']
       },
       {
-        title: 'LLM Product Design Platform',
+        title: 'LLM Product Design Tool',
         bullets: [
           'Accelerated label creation from **1 week** to **15 minutes** using an LLM-driven pipeline with automated quality control.',
           'Parallelized **Gemini** background theme generation, **OpenAI** QA, and **AWS Lambda** logo upscaling across **6** workers.',
@@ -484,7 +484,7 @@ export const EDUCATION: EducationInfo[] = [
     degree: 'Incoming Master of Computer Science',
     specialization: "Computer Vision Research Under Prof. Saurabh Gupta's AI Lab",
     period: 'Expected: Dec 2028',
-    gpa: '3.70 / 4.00',
+    gpa: '3.75 / 4.00',
     logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU7iClDs1G6d4rEth_g33G0-rbL9f05PvlMw&s'
   },
   {
@@ -492,7 +492,7 @@ export const EDUCATION: EducationInfo[] = [
     degree: 'B.S. Mathematics & Computer Science',
     specialization: 'Specializing in Agentic AI Engineering, Autonomy, Perception, & Distributed Systems',
     period: 'Expected: May 2027',
-    gpa: '3.70 / 4.00',
+    gpa: '3.75 / 4.00',
     courses: [
       { id: 'CS 225', name: 'Data Structures' },
       { id: 'CS 374', name: 'Algorithms' },

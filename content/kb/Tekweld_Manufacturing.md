@@ -8,7 +8,7 @@
 
 Built the TekWeld MassMailer platform from the ground up — a full-stack direct mail campaign management system automating the entire pipeline from business lead discovery to personalized physical mail delivery. The platform scrapes leads, processes logos with AI, generates branded labels and flyers, runs automated quality control, and dispatches real printed mailers to each target business.
 
-## Personalized Outreach Tool
+## Personalized Outreach Platform
 
 End-to-end lead-to-physical-mail pipeline.
 
@@ -21,7 +21,7 @@ End-to-end lead-to-physical-mail pipeline.
 
 **Metrics:** 700+ businesses reached with personalized physical outreach, 14% conversion rate on delivered samples, 90,000+ client leads stored in PostgreSQL.
 
-## LLM Product Design Platform
+## LLM Product Design Tool
 
 AI-driven imposition generation engine automating design turnaround from 1 week to 15 minutes.
 

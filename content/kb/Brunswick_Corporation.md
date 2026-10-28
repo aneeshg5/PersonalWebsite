@@ -11,7 +11,7 @@ Built an AI-assisted Mercury Marine propeller selection system from the ground u
 
 ## Propeller Selection Tool
 
-ML system that recommends optimal propeller type and pitch for any boat configuration using historical hydrodynamic test data. Deployed to 400+ commercial users; reduced per-boat dealer testing costs by $25,000.
+ML system that recommends optimal propeller type and pitch for any boat configuration using historical hydrodynamic test data. Deployed to 400+ commercial users; reduced per-boat dealer testing costs by $65,000+.
 
 **Stack:** Python (scikit-learn, ONNX Runtime, FastAPI), Cloudflare Workers + Containers (Hono, D1), Docker, Okta JWT auth.
 

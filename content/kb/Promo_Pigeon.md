@@ -16,10 +16,10 @@ Founding engineer at PromoPigeon LLC, an automated promotional product fulfillme
 
 Launched agentic workflow to generate promotional product mockups from emails and eliminate manual back-and-forth.
 
-- **IMAP IDLE ingestor** with exponential backoff and PostgreSQL state machine processes 2,500+ orders reliably
+- **IMAP IDLE ingestor** with exponential backoff and PostgreSQL state machine processes 2,500+ daily orders reliably
 - **spaCy NLP** parses order details from unstructured email text
 - **Gemini agent** generates branded product mockups from parsed specs
-- Turnaround reduced from **2 days to minutes**
+- Turnaround reduced from **2 days to under a minute**
 
 ## PDF Composition Engine
 

@@ -5,7 +5,7 @@
 **University:** University of Illinois Urbana-Champaign (UIUC)
 **Degree:** B.S. Mathematics & Computer Science
 **Specialization:** Full-Stack Engineering, Applied ML, Embedded Security Research, Scientific Computing
-**GPA:** 3.70 / 4.00
+**GPA:** 3.75 / 4.00
 **Expected Graduation (B.S.):** May 2027
 **Graduate Plans:** Guaranteed admission MCS (Master of Computer Science) at UIUC, beginning immediately after undergraduate completion.
 
